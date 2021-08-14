@@ -1,4 +1,5 @@
 import LandingPage from "../components/LandingPage/LandingPage";
+import Checkout from "../containers/Checkout/checkout";
 import Home from "../containers/Home/Home";
 import Login from "../containers/Login/login";
 import SignUp from "../containers/Signup/Signup";
@@ -24,6 +25,12 @@ const router = [
     path: routes.home,
     name: "Home",
     component: Home,
+  },
+
+  {
+    path: routes.checkout,
+    name: "Checkout",
+    component: Checkout,
   },
 ];
 
