@@ -15,9 +15,9 @@ const SingleProduct = (props) => {
         src={props.src}
         alt="productimg"
       />
-      <p className="lead cloth-text">{props.ctext}</p>
-      <p className="font-weight-bold cloth-brand">{props.cbrand}</p>
-      <p className="text-danger cloth-price">Price: ${props.cprice}</p>
+      <p className="lead cloth-text px-2">{props.ctext}</p>
+      <p className="font-weight-bold cloth-brand px-2">{props.cbrand}</p>
+      <p className="text-danger cloth-price px-2">Price: ${props.cprice}</p>
     </div>
   );
 };
