@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -48,7 +49,9 @@ class Login extends Component {
             onChange={(e) => this.setState({ password: e.target.value })}
           />
           <div className="d-flex justify-content-center">
-            <button className="btn btn-success w-50 btn-lg">Login</button>
+            <Link className="w-50" to="/home">
+              <button className="btn btn-success w-100 btn-lg">Login</button>
+            </Link>
           </div>
         </div>
       </div>

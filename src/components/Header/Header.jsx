@@ -6,9 +6,9 @@ class Header extends Component {
     return (
       <nav
         className="navbar navbar-expand-sm navbar-dark fixed-top"
-        // style={{
-        //   backgroundColor: "#3C5186",
-        // }}
+        style={{
+          backgroundColor: "#3C5186",
+        }}
       >
         <div className="container">
           <p className="navbar-brand mb-0 font-weight-bold text-white">
@@ -27,7 +27,7 @@ class Header extends Component {
           >
             <ul className="navbar-nav" id="navbarNav">
               <li className="nav-item">
-                <a className="nav-link text-white" href="/">
+                <a className="nav-link text-white" href="/home">
                   Home
                 </a>
               </li>
@@ -37,8 +37,8 @@ class Header extends Component {
                 </a>
               </li> */}
               <li className="nav-item">
-                <a className="nav-link text-white" href="/dashboard">
-                  Dashboard
+                <a className="nav-link text-white" href="/ads">
+                  Advertisements
                 </a>
               </li>
               <li className="nav-item mx-1">

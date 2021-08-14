@@ -22,7 +22,7 @@ class SignUp extends Component {
         }}
       >
         <div
-          className="my-auto mx-auto d-flex flex-column justify-content-around bg-light"
+          className="my-auto mx-auto d-flex flex-column justify-content-around bg-light py-2"
           style={{
             width: "35vw",
             height: "500px",
