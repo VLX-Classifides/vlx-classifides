@@ -41,6 +41,11 @@ class Header extends Component {
                   Advertisements
                 </a>
               </li>
+              <li className="nav-item">
+                <a href="/checkout" className="nav-link text-white">
+                  <i class="fa fa-lg fa-shopping-cart"></i>
+                </a>
+              </li>
               <li className="nav-item mx-1">
                 <a
                   href="/signup"

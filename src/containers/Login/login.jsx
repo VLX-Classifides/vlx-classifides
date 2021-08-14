@@ -19,9 +19,9 @@ class Login extends Component {
         }}
       >
         <div
-          className="my-auto mx-auto d-flex flex-column justify-content-around"
+          className="my-auto col-md-4 col-sm-10 mx-auto d-flex flex-column justify-content-around"
           style={{
-            width: "30vw",
+            //width: "30vw",
             height: "350px",
           }}
         >

@@ -20,7 +20,7 @@ class Products extends Component {
   }
   render() {
     return (
-      <div className="d-flex flex-row overflow-scroll">
+      <div className="d-flex flex-column">
         {this.state.products.map((product) => (
           <SingleProduct
             key={product.id}
