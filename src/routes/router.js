@@ -2,6 +2,7 @@ import LandingPage from "../components/LandingPage/LandingPage";
 import Checkout from "../containers/Checkout/checkout";
 import Home from "../containers/Home/Home";
 import Login from "../containers/Login/login";
+import ProductDetails from "../containers/ProductDetails/productDetails";
 import SignUp from "../containers/Signup/Signup";
 import { routes } from "./routes";
 
@@ -26,11 +27,15 @@ const router = [
     name: "Home",
     component: Home,
   },
-
   {
     path: routes.checkout,
     name: "Checkout",
     component: Checkout,
+  },
+  {
+    path: routes.productDetails,
+    name: "Product Details",
+    component: ProductDetails,
   },
 ];
 

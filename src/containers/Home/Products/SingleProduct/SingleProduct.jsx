@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const SingleProduct = (props) => {
   return (
@@ -6,7 +8,10 @@ const SingleProduct = (props) => {
       className="d-flex flex-column mx-1 my-2"
       style={{
         backgroundColor: "lightgray",
+        minWidth: "19%",
+        cursor: "pointer",
       }}
+      onClick={() => props.history.push("/product/" + props.cid)}
     >
       <img
         className="w-100"
@@ -22,4 +27,4 @@ const SingleProduct = (props) => {
   );
 };
 
-export default SingleProduct;
+export default withRouter(SingleProduct);

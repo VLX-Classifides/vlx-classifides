@@ -4,4 +4,5 @@ export const routes = {
   login: "/login",
   signup: "/signup",
   checkout: "/checkout",
+  productDetails: "/product/:id",
 };
