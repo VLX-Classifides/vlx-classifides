@@ -29,7 +29,7 @@ class SignUp extends Component {
             borderRadius: "30px",
           }}
         >
-          <p className="lead">Create a VLX Account</p>
+          <p className="lead text-center">Create a VLX Account</p>
           <div className="d-flex flex-column w-75 mx-auto justify-content-around">
             <input
               type="text"

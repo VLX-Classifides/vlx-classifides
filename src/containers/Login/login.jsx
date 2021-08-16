@@ -25,7 +25,7 @@ class Login extends Component {
             height: "350px",
           }}
         >
-          <p className="display-4 text-white">VLX Classifides</p>
+          <p className="display-4 text-white text-center">VLX Classifides</p>
           <input
             type="text"
             className="form-control p-3"

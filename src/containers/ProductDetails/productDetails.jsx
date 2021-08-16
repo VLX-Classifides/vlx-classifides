@@ -6,6 +6,7 @@ class ProductDetails extends Component {
     data: null,
     selectedImg: "",
     selectedIndex: -1,
+    categoryProducts: [],
   };
 
   getProductDetails = async () => {
@@ -103,6 +104,9 @@ class ProductDetails extends Component {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="row my-5">
+            <h1>People who bought this also bought</h1>
           </div>
         </div>
       )
