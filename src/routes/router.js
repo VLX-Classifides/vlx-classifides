@@ -1,4 +1,5 @@
 import LandingPage from "../components/LandingPage/LandingPage";
+import Advertisements from "../containers/Advertisements/advertisements";
 import Checkout from "../containers/Checkout/checkout";
 import Home from "../containers/Home/Home";
 import Login from "../containers/Login/login";
@@ -36,6 +37,11 @@ const router = [
     path: routes.productDetails,
     name: "Product Details",
     component: ProductDetails,
+  },
+  {
+    path: routes.ads,
+    name: "Advertisements",
+    component: Advertisements,
   },
 ];
 
