@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Header extends Component {
   state = {};
@@ -27,9 +28,9 @@ class Header extends Component {
           >
             <ul className="navbar-nav" id="navbarNav">
               <li className="nav-item">
-                <a className="nav-link text-white" href="/home">
+                <Link className="nav-link text-white" to="/home">
                   Home
-                </a>
+                </Link>
               </li>
               {/* <li className="nav-item">
                 <a className="nav-link text-white" href="/analytics">
@@ -37,30 +38,30 @@ class Header extends Component {
                 </a>
               </li> */}
               <li className="nav-item">
-                <a className="nav-link text-white" href="/ads">
+                <Link className="nav-link text-white" to="/ads">
                   Advertisements
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a href="/checkout" className="nav-link text-white">
+                <Link to="/checkout" className="nav-link text-white">
                   <i class="fa fa-lg fa-shopping-cart"></i>
-                </a>
+                </Link>
               </li>
               <li className="nav-item mx-1">
-                <a
-                  href="/signup"
+                <Link
+                  to="/signup"
                   className="nav-link text-white font-weight-bold"
                 >
                   Sign Up
-                </a>
+                </Link>
               </li>
               <li className="nav-item mx-1">
-                <a
-                  href="/login"
+                <Link
+                  to="/login"
                   className="nav-link font-weight-bold btn bg-white text-primary px-5"
                 >
                   Login
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

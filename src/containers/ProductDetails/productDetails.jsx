@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import * as actionsTypes from "../../store/actions/actionTypes";
 
 class ProductDetails extends Component {
   state = {
@@ -100,7 +102,12 @@ class ProductDetails extends Component {
                   ))}
                 </div>
                 <div className="my-4">
-                  <button className="btn btn-primary">Add to Cart</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => this.props.addToCheckout(this.state.data)}
+                  >
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             </div>
@@ -114,4 +121,11 @@ class ProductDetails extends Component {
   }
 }
 
-export default ProductDetails;
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    addToCheckout: (data) =>
+      dispatch({ type: actionsTypes.ADD_TO_CHECKOUT, data: data }),
+  };
+};
+
+export default connect(null, mapDispatchtoProps)(ProductDetails);

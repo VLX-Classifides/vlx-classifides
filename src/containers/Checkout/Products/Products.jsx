@@ -21,7 +21,7 @@ class Products extends Component {
   render() {
     return (
       <div className="d-flex flex-column">
-        {this.state.products.map((product) => (
+        {this.props.products.map((product) => (
           <SingleProduct
             key={product.id}
             src={product.preview}

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Products from "./Products/Products";
+import { connect } from "react-redux";
+import * as actionTypes from "../../store/actions/actionTypes";
 
 class Checkout extends Component {
   state = {};
@@ -12,7 +14,8 @@ class Checkout extends Component {
         </div>
         <div className="row">
           <div className="col-md-7">
-            <Products start={0} end={5} />
+            {console.log(this.props.items)}
+            <Products start={0} end={5} products={this.props.items} />
           </div>
           <div className="col-md-5">
             <div
@@ -47,4 +50,10 @@ class Checkout extends Component {
   }
 }
 
-export default Checkout;
+const mapStatetoProps = (state) => {
+  return {
+    items: state.checkout.items,
+  };
+};
+
+export default connect(mapStatetoProps)(Checkout);
