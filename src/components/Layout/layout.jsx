@@ -4,6 +4,7 @@ import LandingPage from "../LandingPage/LandingPage";
 
 import { Switch, Route } from "react-router-dom";
 import router from "../../routes/router";
+import { ToastContainer } from "react-toastify";
 
 const Layout = () => {
   return (
@@ -22,6 +23,7 @@ const Layout = () => {
           );
         })}
       </Switch>
+      <ToastContainer />
     </div>
   );
 };

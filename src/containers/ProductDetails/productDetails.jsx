@@ -79,6 +79,7 @@ class ProductDetails extends Component {
                   {this.state.data.photos.map((photo, index) => (
                     <img
                       src={photo}
+                      key={"previewimg" + index}
                       alt="smallimg"
                       style={{
                         height: "70px",

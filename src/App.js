@@ -1,7 +1,8 @@
-import './App.css';
-import Layout from './components/Layout/layout';
+import "./App.css";
+import Layout from "./components/Layout/layout";
+import "react-toastify/dist/ReactToastify.css";
 
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (

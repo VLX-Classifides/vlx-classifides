@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 class CreateAdModal extends Component {
   state = {
@@ -18,13 +20,39 @@ class CreateAdModal extends Component {
     },
   };
   handleInput = (e) => {
-    console.log(e.target.name, e.target.value);
     this.setState({
       fields: {
         ...this.state.fields,
         [e.target.name]: e.target.value,
       },
     });
+  };
+  createAd = async () => {
+    const body = {
+      name: this.state.fields.name,
+      brand: this.state.fields.brand,
+      descr: this.state.fields.description,
+      price: this.state.fields.price - "0",
+      category: this.state.fields.category,
+      type: "old",
+      createdDate: new Date(),
+      createdBy: "Me",
+      //old: this.state.fields.name,
+      usedyr: this.state.fields.usedYears - "0",
+      condi: this.state.fields.condition,
+      negotiable: this.state.fields.negotiable,
+      loc: this.state.fields.location,
+      //photos: [],
+    };
+    await axios
+      .post("http://192.168.29.226:8080/api/product", body)
+      .then((res) => {
+        console.log(res);
+        toast.success("Product Created");
+        this.props.getAds();
+      })
+      .catch((err) => console.log(err));
+    this.props.toggle();
   };
   render() {
     return (
@@ -246,7 +274,9 @@ class CreateAdModal extends Component {
             <button className="btn btn-danger mx-1" onClick={this.props.toggle}>
               Cancel
             </button>
-            <button className="btn btn-success mx-1">Create</button>
+            <button className="btn btn-success mx-1" onClick={this.createAd}>
+              Create
+            </button>
           </div>
         </ModalFooter>
       </Modal>
