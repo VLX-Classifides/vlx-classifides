@@ -24,7 +24,7 @@ class Products extends Component {
         {this.props.products.map((product) => (
           <SingleProduct
             key={product.id}
-            src={product.preview}
+            src={product.image}
             ctext={product.name}
             cbrand={product.brand}
             cprice={product.price}

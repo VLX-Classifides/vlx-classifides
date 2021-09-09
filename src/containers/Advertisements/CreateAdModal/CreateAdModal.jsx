@@ -17,6 +17,7 @@ class CreateAdModal extends Component {
       negotiable: false,
       location: "",
       photos: [],
+      photo: null,
     },
   };
   handleInput = (e) => {
@@ -27,29 +28,42 @@ class CreateAdModal extends Component {
       },
     });
   };
+  addImageToProduct = async (id) => {
+    const fd = new FormData();
+    fd.append("file", this.state.fields.photos);
+    //console.log(this.state.photos);
+    await axios
+      .post(
+        "http://192.168.29.226:8080/api/product/" + id + "/assign-image",
+        fd
+      )
+      .then((res) => {
+        console.log(res.data);
+        this.props.getAds();
+      })
+      .catch((err) => console.log(err));
+  };
   createAd = async () => {
     const body = {
       name: this.state.fields.name,
       brand: this.state.fields.brand,
-      descr: this.state.fields.description,
+      description: this.state.fields.description,
       price: this.state.fields.price - "0",
       category: this.state.fields.category,
-      type: "old",
       createdDate: new Date(),
-      createdBy: "Me",
-      //old: this.state.fields.name,
+      //createdBy: "Me",
+      oldd: this.state.fields.old,
       usedyr: this.state.fields.usedYears - "0",
-      condi: this.state.fields.condition,
+      condition: this.state.fields.condition,
       negotiable: this.state.fields.negotiable,
       loc: this.state.fields.location,
-      //photos: [],
     };
     await axios
       .post("http://192.168.29.226:8080/api/product", body)
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
+        this.addImageToProduct(res.data.result.id);
         toast.success("Product Created");
-        this.props.getAds();
       })
       .catch((err) => console.log(err));
     this.props.toggle();
@@ -235,7 +249,7 @@ class CreateAdModal extends Component {
               <label htmlFor="photos">
                 Upload photos of the product(min 1, max 7)
               </label>
-              <div className="d-flex flex-row my-2">
+              {/* <div className="d-flex flex-row my-2">
                 {this.state.fields.photos.map((photo, index) => (
                   <img
                     src={URL.createObjectURL(photo)}
@@ -248,21 +262,21 @@ class CreateAdModal extends Component {
                     className="mx-2"
                   />
                 ))}
-              </div>
+              </div> */}
               <input
                 type="file"
                 name="photos"
                 className="form-control"
                 id="photos"
-                multiple
+                //multiple
                 onChange={(e) => {
-                  const files = e.target.files;
-                  const allfiles = [];
-                  for (let i = 0; i < files.length; i++) {
-                    allfiles.push(files[i]);
-                  }
+                  const files = e.target.files[0];
+                  // const allfiles = [];
+                  // for (let i = 0; i < files.length; i++) {
+                  //   allfiles.push(files[i]);
+                  // }
                   this.setState({
-                    fields: { ...this.state.fields, photos: allfiles },
+                    fields: { ...this.state.fields, photos: files },
                   });
                 }}
               />

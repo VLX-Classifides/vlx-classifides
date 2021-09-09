@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import CreateAdModal from "./CreateAdModal/CreateAdModal";
 import axios from "axios";
-import SingleProduct from "../Home/Products/SingleProduct/SingleProduct";
+import SingleProduct from "./SingleProduct/SingleProduct";
+import api from "../../routes/api";
 
 class Advertisements extends Component {
   state = {
@@ -20,7 +21,7 @@ class Advertisements extends Component {
 
   getAdvertisements = async () => {
     await axios
-      .get("http://192.168.29.226:8080/products")
+      .get(api.developmentServer + "/api/products")
       .then((res) => {
         this.setState({ ads: res.data });
         console.log(res.data);
@@ -50,15 +51,18 @@ class Advertisements extends Component {
         </div>
         <div className="row my-5">
           {this.state.ads.length > 0 ? (
-            <div className="d-flex flex-row flex-wrap">
+            <div className="d-flex flex-row flex-wrap row overflow-auto">
               {this.state.ads.map((product) => (
-                <SingleProduct
-                  key={product.id}
-                  cid={product.id}
-                  ctext={product.name}
-                  cbrand={product.brand}
-                  cprice={product.price}
-                />
+                <div className="col-3">
+                  <SingleProduct
+                    key={product.id}
+                    cid={product.id}
+                    ctext={product.name}
+                    cbrand={product.brand}
+                    cprice={product.price}
+                    src={product.image}
+                  />
+                </div>
               ))}
             </div>
           ) : (

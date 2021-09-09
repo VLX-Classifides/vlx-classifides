@@ -1,13 +1,73 @@
 import React, { Component } from "react";
+import axios from "axios";
+import api from "../../routes/api";
+import { toast } from "react-toastify";
+import { connect } from "react-redux";
+import * as actionTypes from "../../store/actions/actionTypes";
 
 class SignUp extends Component {
   state = {
-    name: "",
     username: "",
     email: "",
     password: "",
     cpassword: "",
     role: "",
+    creditCard: "",
+    contact: "",
+  };
+  signUp = async () => {
+    const url = api.developmentServer + "/user/create";
+    const body = {
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password,
+      contact: this.state.contact,
+      role: this.state.role,
+      creditCard: this.state.role === "seller" ? this.state.creditCard : "",
+    };
+    await axios
+      .post(url, body)
+      .then((res) => {
+        console.log("Sign Up: ", res.data);
+        if (res.data.responseType) {
+          localStorage.setItem("user", JSON.stringify(res.data.result));
+          this.props.authenticate();
+          this.setState({
+            username: "",
+            email: "",
+            password: "",
+            cpassword: "",
+            role: "",
+            creditCard: "",
+            contact: "",
+          });
+          toast.success(res.data.message);
+          this.props.history.replace("/home");
+        } else {
+          toast.warning(res.data.message);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  validateEmail = (email) => {
+    const pattern =
+      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+    return pattern.test(email);
+  };
+  signUpValidation = () => {
+    if (this.state.username.trim() === "") {
+      toast.warning("Username is mandatory field");
+    } else if (!this.validateEmail(this.state.email)) {
+      toast.warning("Email field wrong");
+    } else if (this.state.password !== this.state.cpassword) {
+      toast.warning("Confirm password not equal to password");
+    } else if (this.state.role.trim() === "") {
+      toast.warning("Role is mandatory field");
+    } else if (this.state.role === "seller" && this.state.creditCard === "") {
+      toast.warning("Enter credit card number to receive a payment");
+    } else {
+      this.signUp();
+    }
   };
   render() {
     return (
@@ -22,16 +82,19 @@ class SignUp extends Component {
         }}
       >
         <div
-          className="my-auto mx-auto d-flex flex-column justify-content-around bg-light py-2"
+          className="my-auto mx-auto d-flex flex-column justify-content-around py-2"
           style={{
-            width: "35vw",
+            width: "40vw",
+            minWidth: "500px",
             height: "500px",
-            borderRadius: "30px",
+            //borderRadius: "30px",
           }}
         >
-          <p className="lead text-center">Create a VLX Account</p>
+          <h2 className="text-center text-white font-weight-bold">
+            Create a VLX Account
+          </h2>
           <div className="d-flex flex-column w-75 mx-auto justify-content-around">
-            <input
+            {/* <input
               type="text"
               className="form-control py-2 px-3 my-1"
               placeholder="Full Name"
@@ -41,7 +104,7 @@ class SignUp extends Component {
               }}
               value={this.state.name}
               onChange={(e) => this.setState({ name: e.target.value })}
-            />
+            /> */}
             <input
               type="text"
               className="form-control py-2 px-3 my-1"
@@ -67,6 +130,17 @@ class SignUp extends Component {
             <input
               type="text"
               className="form-control py-2 px-3 my-1"
+              placeholder="Contact No."
+              style={{
+                borderRadius: "20px",
+                fontSize: "20px",
+              }}
+              value={this.state.contact}
+              onChange={(e) => this.setState({ contact: e.target.value })}
+            />
+            <input
+              type="password"
+              className="form-control py-2 px-3 my-1"
               placeholder="Password"
               style={{
                 borderRadius: "20px",
@@ -76,7 +150,7 @@ class SignUp extends Component {
               onChange={(e) => this.setState({ password: e.target.value })}
             />
             <input
-              type="text"
+              type="password"
               className="form-control py-2 px-3 my-1"
               placeholder="Confirm Password"
               style={{
@@ -87,12 +161,13 @@ class SignUp extends Component {
               onChange={(e) => this.setState({ cpassword: e.target.value })}
             />
             <select
-              className="form-control py-2 px-3 mt-1 mb-4"
+              className="form-control py-2 px-3 mt-1"
               onChange={(e) => this.setState({ role: e.target.value })}
               style={{
                 borderRadius: "20px",
                 fontSize: "20px",
               }}
+              value={this.state.role}
               placeholder="Select Role"
             >
               <option value="" disabled selected>
@@ -101,9 +176,27 @@ class SignUp extends Component {
               <option value="buyer">Buyer</option>
               <option value="seller">Seller</option>
             </select>
+            {this.state.role === "seller" && (
+              <input
+                type="text"
+                className="form-control py-2 px-3 my-1 mb-4"
+                placeholder="Credit Card(for Seller)"
+                style={{
+                  borderRadius: "20px",
+                  fontSize: "20px",
+                }}
+                value={this.state.creditCard}
+                onChange={(e) => this.setState({ creditCard: e.target.value })}
+              />
+            )}
           </div>
           <div className="d-flex justify-content-center">
-            <button className="btn btn-primary w-50 btn-lg">Sign Up</button>
+            <button
+              className="btn btn-primary w-50 btn-lg"
+              onClick={this.signUpValidation}
+            >
+              Sign Up
+            </button>
           </div>
         </div>
       </div>
@@ -111,4 +204,11 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    authenticate: () =>
+      dispatch({ type: actionTypes.AUTHENTICATE, data: true }),
+  };
+};
+
+export default connect(null, mapDispatchtoProps)(SignUp);

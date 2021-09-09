@@ -1,6 +1,8 @@
 import React from "react";
 
 const SingleProduct = (props) => {
+  var blob = new Blob([new Uint8Array(props.src)], { type: "image/jpeg" });
+  var imageUrl = URL.createObjectURL(blob);
   return (
     <div
       className="d-flex flex-row justify-content-between my-2 p-2"
@@ -21,7 +23,7 @@ const SingleProduct = (props) => {
           style={{
             borderRadius: "10px",
           }}
-          src={props.src}
+          src={imageUrl}
           alt="productimg"
         />
       </div>
@@ -31,7 +33,7 @@ const SingleProduct = (props) => {
           width: "60%",
         }}
       >
-        <p className="lead cloth-text">{props.ctext} x2</p>
+        <p className="lead cloth-text">{props.ctext}</p>
         <p className="font-weight-bold cloth-brand">{props.cbrand}</p>
         <p className="text-danger cloth-price">Price: ${props.cprice}</p>
       </div>

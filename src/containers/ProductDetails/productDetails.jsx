@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import * as actionsTypes from "../../store/actions/actionTypes";
+import api from "../../routes/api";
 
 class ProductDetails extends Component {
   state = {
@@ -12,14 +13,19 @@ class ProductDetails extends Component {
   };
 
   getProductDetails = async () => {
+    //const url = "https://5d76bf96515d1a0014085cf9.mockapi.io/product/" + this.props.match.params.id;
+    const url =
+      api.developmentServer + "/api/product/" + this.props.match.params.id;
     await axios
-      .get(
-        "https://5d76bf96515d1a0014085cf9.mockapi.io/product/" +
-          this.props.match.params.id
-      )
+      .get(url)
       .then((res) => {
         console.log("Single Product: ", res.data);
-        this.setState({ data: res.data, selectedImg: res.data.preview });
+        this.setState({ data: res.data.result });
+        let blob = new Blob([new Uint8Array(res.data.result.image)], {
+          type: "image/jpeg",
+        });
+        let imageUrl = URL.createObjectURL(blob);
+        this.setState({ selectedImg: imageUrl });
       })
       .catch((err) => console.log(err));
   };
@@ -74,7 +80,7 @@ class ProductDetails extends Component {
                 >
                   {this.state.data.description}
                 </p>
-                <h3>Product Preview</h3>
+                {/* <h3>Product Preview</h3>
                 <div className="d-flex flex-row">
                   {this.state.data.photos.map((photo, index) => (
                     <img
@@ -101,7 +107,7 @@ class ProductDetails extends Component {
                       }
                     />
                   ))}
-                </div>
+                </div> */}
                 <div className="my-4">
                   <button
                     className="btn btn-primary"
