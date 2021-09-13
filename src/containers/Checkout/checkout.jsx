@@ -1,10 +1,20 @@
 import React, { Component } from "react";
 import Products from "./Products/Products";
+import PaymentModal from "../Payment/PaymentModal";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
 
 class Checkout extends Component {
-  state = {};
+  state = {
+    createPaymentModal: false
+  };
+  toggleCreatePaymentModal = () => {
+    this.setState((pS, props) => {
+      return {
+        createPaymentModal: !pS.createPaymentModal,
+      };
+    });
+  };
   render() {
     let totalPrice = 0;
     this.props.items.map((item) => (totalPrice += item.price - "0"));
@@ -44,10 +54,11 @@ class Checkout extends Component {
               >
                 Amount: ${totalPrice}
               </p>
-              <button className="btn btn-success">Place Order</button>
+              <button className="btn btn-success" onClick={this.toggleCreatePaymentModal}>Place Order</button>
             </div>
           </div>
         </div>
+        <PaymentModal show={this.state.createPaymentModal} toggle={this.toggleCreatePaymentModal} />
       </div>
     );
   }
