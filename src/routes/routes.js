@@ -6,4 +6,5 @@ export const routes = {
   checkout: "/checkout",
   productDetails: "/product/:id",
   ads: "/ads",
+  logout: "/logout",
 };

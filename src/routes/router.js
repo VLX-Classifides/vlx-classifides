@@ -5,6 +5,7 @@ import Home from "../containers/Home/Home";
 import Login from "../containers/Login/login";
 import ProductDetails from "../containers/ProductDetails/productDetails";
 import SignUp from "../containers/Signup/Signup";
+import Logout from "../components/Logout/logout";
 import { routes } from "./routes";
 
 const router = [
@@ -42,6 +43,11 @@ const router = [
     path: routes.ads,
     name: "Advertisements",
     component: Advertisements,
+  },
+  {
+    path: routes.logout,
+    name: "Logout",
+    component: Logout,
   },
 ];
 
