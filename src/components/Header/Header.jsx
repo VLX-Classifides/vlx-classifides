@@ -41,7 +41,14 @@ class Header extends Component {
                   Analytics
                 </a>
               </li> */}
-              <li className="nav-item">
+              {1===1?
+              (<li className="nav-item">
+                <Link className="nav-link text-white" to="/ads">
+                  Users
+                </Link>
+              </li>):(
+                <>
+                <li className="nav-item">
                 <Link className="nav-link text-white" to="/ads">
                   Advertisements
                 </Link>
@@ -79,6 +86,8 @@ class Header extends Component {
                     Logout
                   </Link>
                 </li>
+              )}
+                </>
               )}
             </ul>
           </div>

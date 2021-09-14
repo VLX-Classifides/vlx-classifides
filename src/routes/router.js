@@ -6,7 +6,7 @@ import Login from "../containers/Login/login";
 import ProductDetails from "../containers/ProductDetails/productDetails";
 import SignUp from "../containers/Signup/Signup";
 import { routes } from "./routes";
-
+import PendingProductDetails from "../containers/Home/PendingProducts/PendingProductDetails";
 const router = [
   {
     path: routes.landing,
@@ -42,6 +42,11 @@ const router = [
     path: routes.ads,
     name: "Advertisements",
     component: Advertisements,
+  },
+  {
+    path: routes.pendingproductdetails,
+    name: "PendingProductDetails",
+    component: PendingProductDetails,
   },
 ];
 

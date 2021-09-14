@@ -57,6 +57,7 @@ class PaymentModal extends Component {
                 name="cardNo"
                 className="form-control"
                 value={this.state.cardNo}
+                placeholder="16 digit card no"
                 onChange={(e)=>{this.setState({cardNo:e.target.value, msg:""})}}
               />
             </div>
@@ -67,6 +68,7 @@ class PaymentModal extends Component {
                 name="cardHolder"
                 className="form-control"
                 value={this.state.cardHolder}
+                placeholder="card holder name"
                 onChange={(e)=>{this.setState({cardHolder:e.target.value, msg:""})}}
               />
             </div>
@@ -77,6 +79,7 @@ class PaymentModal extends Component {
                 name="cvv"
                 className="form-control"
                 value={this.state.cvv}
+                placeholder="3 digit cvv"
                 onChange={(e)=>{this.setState({cvv:e.target.value, msg:""})}}
               />
             </div>

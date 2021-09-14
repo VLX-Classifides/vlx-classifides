@@ -1,17 +1,36 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import * as actionsTypes from "../../store/actions/actionTypes";
-import api from "../../routes/api";
-
-class ProductDetails extends Component {
+import api from "../../../routes/api";
+import { toast } from "react-toastify"; 
+class PendingProductDetails extends Component {
   state = {
     data: null,
-    selectedImg: "",
-    selectedIndex: -1,
-    categoryProducts: [],
+    msg:""
   };
 
+approveProduct =(e)=>
+{
+    const url =api.developmentServer + "/approveProduct/" + this.props.match.params.id;
+    e.preventDefault();
+    axios.put(url).then(res=>{
+        console.log(res)
+        this.setState({msg:res.data.message})
+        toast.success(this.state.msg)
+        this.props.history.push("/home")
+    })
+}
+rejectProduct =(e)=>
+{
+    const url =api.developmentServer + "/rejectProduct/" + this.props.match.params.id;
+    e.preventDefault();
+    axios.delete(url).then(res=>{
+        this.setState({msg:res.data.message})
+        toast.success(this.state.msg)
+        this.props.history.push("/home")
+    })
+    this.props.history.push("/home")
+}
   getProductDetails = async () => {
     //const url = "https://5d76bf96515d1a0014085cf9.mockapi.io/product/" + this.props.match.params.id;
     const url =
@@ -69,7 +88,7 @@ class ProductDetails extends Component {
                     fontSize: "24px",
                   }}
                 >
-                  Description:{" "}
+                  Description:<h5>{this.state.data.descr}</h5>
                 </h3>
                 <p
                   style={{
@@ -110,17 +129,20 @@ class ProductDetails extends Component {
                 </div> */}
                 <div className="my-4">
                   <button
-                    className="btn btn-primary"
-                    onClick={() => this.props.addToCheckout(this.state.data)}
+                    className="btn btn-danger"
+                    onClick={this.rejectProduct}
                   >
-                    Add to Cart
+                    Reject
+                  </button>{" "}
+                  <button
+                    className="btn btn-primary"
+                    onClick={this.approveProduct}
+                  >
+                    Approve
                   </button>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="row my-5">
-            <h1>People who bought this also bought</h1>
           </div>
         </div>
       )
@@ -128,11 +150,4 @@ class ProductDetails extends Component {
   }
 }
 
-const mapDispatchtoProps = (dispatch) => {
-  return {
-    addToCheckout: (data) =>
-      dispatch({ type: actionsTypes.ADD_TO_CHECKOUT, data: data }),
-  };
-};
-
-export default connect(null, mapDispatchtoProps)(ProductDetails);
+export default PendingProductDetails;
