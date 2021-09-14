@@ -5,6 +5,7 @@ import Home from "../containers/Home/Home";
 import Login from "../containers/Login/login";
 import ProductDetails from "../containers/ProductDetails/productDetails";
 import SignUp from "../containers/Signup/Signup";
+import Logout from "../components/Logout/logout";
 import { routes } from "./routes";
 import PendingProductDetails from "../containers/Home/PendingProducts/PendingProductDetails";
 const router = [
@@ -47,6 +48,11 @@ const router = [
     path: routes.pendingproductdetails,
     name: "PendingProductDetails",
     component: PendingProductDetails,
+  },
+  {
+    path: routes.logout,
+    name: "Logout",
+    component: Logout,
   },
 ];
 

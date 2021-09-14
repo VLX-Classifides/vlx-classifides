@@ -1,10 +1,54 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import api from "../../routes/api";
+import { toast } from "react-toastify";
+import { connect } from "react-redux";
+import * as actionTypes from "../../store/actions/actionTypes";
 
 class Login extends Component {
   state = {
     email: "",
     password: "",
+  };
+  login = async () => {
+    const url = api.developmentServer + "/user/entry";
+    const body = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    await axios
+      .post(url, body)
+      .then((res) => {
+        console.log("Log In: ", res.data);
+        if (res.data.responseType) {
+          localStorage.setItem("user", JSON.stringify(res.data.result));
+          this.props.authenticate();
+          this.setState({
+            email: "",
+            password: "",
+          });
+          toast.success(res.data.message);
+          this.props.history.replace("/home");
+        } else {
+          toast.warning(res.data.message);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  validateEmail = (email) => {
+    const pattern =
+      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+    return pattern.test(email);
+  };
+  loginValidation = () => {
+    if (!this.validateEmail(this.state.email)) {
+      toast.warning("Email field wrong");
+    } else if (this.state.password === "") {
+      toast.warning("Password field empty");
+    } else {
+      this.login();
+    }
   };
   render() {
     return (
@@ -49,9 +93,12 @@ class Login extends Component {
             onChange={(e) => this.setState({ password: e.target.value })}
           />
           <div className="d-flex justify-content-center">
-            <Link className="w-50" to="/home">
-              <button className="btn btn-success w-100 btn-lg">Login</button>
-            </Link>
+            <button
+              className="btn btn-success w-100 btn-lg"
+              onClick={this.loginValidation}
+            >
+              Login
+            </button>
           </div>
         </div>
       </div>
@@ -59,4 +106,11 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    authenticate: () =>
+      dispatch({ type: actionTypes.AUTHENTICATE, data: true }),
+  };
+};
+
+export default connect(null, mapDispatchtoProps)(Login);
