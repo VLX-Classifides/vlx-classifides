@@ -4,11 +4,13 @@ import HomeCarousel from "./HomeCarousel/HomeCarousel";
 import Products from "./Products/Products";
 import PendingProducts from "./PendingProducts/PendingProducts"
 class Home extends Component {
-  state = {};
+  state = {
+    user: JSON.parse(localStorage.getItem("user")),
+  };
   render() {
     return (
       <div className="my-5 pt-5 container-lg">
-        {1===1?
+        {(this.state.user && this.state.user.role === "admin")?
         <div>
           <h3> Products to be approved</h3>
           <PendingProducts />

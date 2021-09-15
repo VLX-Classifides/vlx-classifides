@@ -51,7 +51,7 @@ class Header extends Component {
                   Analytics
                 </a>
               </li> */}
-              {1 === 1 ? (
+              {(this.state.user && this.state.user.role === "admin") ? (
                 <li className="nav-item">
                   <Link className="nav-link text-white" to="/users">
                     Users
