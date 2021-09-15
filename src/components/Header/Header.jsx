@@ -49,7 +49,7 @@ class Header extends Component {
               )}
               {this.state.user && this.state.user.role === "admin" ? (
                 <li className="nav-item">
-                  <Link className="nav-link text-white" to="/ads">
+                  <Link className="nav-link text-white" to="/users">
                     Users
                   </Link>
                 </li>

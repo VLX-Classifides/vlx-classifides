@@ -8,4 +8,6 @@ export const routes = {
   ads: "/ads",
   pendingproductdetails:"/pendingproduct/:id",
   logout: "/logout",
+  users:"/users",
+  userdetails:"/userdetails/:id",
 };
