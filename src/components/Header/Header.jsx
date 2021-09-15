@@ -17,7 +17,6 @@ class Header extends Component {
     // });
   }
   render() {
-    console.log(this.props);
     return (
       <nav
         className="navbar navbar-expand-sm navbar-dark fixed-top"
@@ -41,17 +40,14 @@ class Header extends Component {
             className="collapse navbar-collapse d-flex justify-content-end"
           >
             <ul className="navbar-nav" id="navbarNav">
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/home">
-                  Home
-                </Link>
-              </li>
-              {/* <li className="nav-item">
-                <a className="nav-link text-white" href="/analytics">
-                  Analytics
-                </a>
-              </li> */}
-              {(this.state.user && this.state.user.role === "admin") ? (
+              {this.props.auth && (
+                <li className="nav-item">
+                  <Link className="nav-link text-white" to="/home">
+                    Home
+                  </Link>
+                </li>
+              )}
+              {this.state.user && this.state.user.role === "admin" ? (
                 <li className="nav-item">
                   <Link className="nav-link text-white" to="/users">
                     Users
@@ -59,40 +55,44 @@ class Header extends Component {
                 </li>
               ) : (
                 <>
-                  {this.state.user && this.state.user.role === "seller" && (
+                  {this.state.user && this.state.user.role === "seller" ? (
                     <li className="nav-item">
                       <Link className="nav-link text-white" to="/ads">
                         Advertisements
                       </Link>
                     </li>
+                  ) : null}
+                  {this.props.auth && (
+                    <li className="nav-item">
+                      <Link to="/checkout" className="nav-link text-white">
+                        <i class="fa fa-lg fa-shopping-cart"></i>
+                      </Link>
+                    </li>
                   )}
-                  <li className="nav-item">
-                    <Link to="/checkout" className="nav-link text-white">
-                      <i class="fa fa-lg fa-shopping-cart"></i>
+                </>
+              )}
+              {!this.props.auth ? (
+                <>
+                  <li className="nav-item mx-1">
+                    <Link
+                      to="/signup"
+                      className="nav-link text-white font-weight-bold"
+                    >
+                      Sign Up
                     </Link>
                   </li>
-                  {!this.props.auth ? (
-                    <>
-                      <li className="nav-item mx-1">
-                        <Link
-                          to="/signup"
-                          className="nav-link text-white font-weight-bold"
-                        >
-                          Sign Up
-                        </Link>
-                      </li>
-                      <li className="nav-item mx-1">
-                        <Link
-                          to="/login"
-                          className="nav-link font-weight-bold btn bg-white text-primary px-5"
-                        >
-                          Login
-                        </Link>
-                      </li>
-                    </>
-                  ) : (
-                    <li className="nav-item mx-1 d-flex align-items-center">
-                      {/* <div className="d-flex align-items-center">
+                  <li className="nav-item mx-1">
+                    <Link
+                      to="/login"
+                      className="nav-link font-weight-bold btn bg-white text-primary px-5"
+                    >
+                      Login
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <li className="nav-item mx-1 d-flex align-items-center">
+                  {/* <div className="d-flex align-items-center">
                     <i
                       class="fa fa-2x my-auto text-white fa-user-circle display-6 dropdown-toggle"
                       id="dropdownMenuButton1"
@@ -116,15 +116,13 @@ class Header extends Component {
                       </div>
                     </div>
                   </div> */}
-                      <Link
-                        to="/logout"
-                        className="nav-link font-weight-bold btn bg-white text-primary px-5"
-                      >
-                        Logout
-                      </Link>
-                    </li>
-                  )}
-                </>
+                  <Link
+                    to="/logout"
+                    className="nav-link font-weight-bold btn bg-white text-primary px-5"
+                  >
+                    Logout
+                  </Link>
+                </li>
               )}
             </ul>
           </div>

@@ -6,7 +6,7 @@ import api from "../../routes/api";
 
 class Advertisements extends Component {
   state = {
-    user: null,
+    user: JSON.parse(localStorage.getItem("user")),
     ads: [],
     createModal: false,
   };
@@ -21,10 +21,14 @@ class Advertisements extends Component {
 
   getAdvertisements = async () => {
     await axios
-      .get(api.developmentServer + "/api/products")
+      .get(
+        api.developmentServer + "/api/products-by-user/" + this.state.user.id
+      )
       .then((res) => {
-        this.setState({ ads: res.data });
-        console.log(res.data);
+        console.log("Advertisements: ", res.data);
+        if (res.data.responseType) {
+          this.setState({ ads: res.data.results });
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -44,8 +48,9 @@ class Advertisements extends Component {
             <button
               className="btn btn-lg btn-dark"
               onClick={this.toggleCreateModal}
+              title="Add Advertisement"
             >
-              + Add Advertisement
+              <i className="fa text-white fa-plus"></i>
             </button>
           </div>
         </div>
@@ -55,7 +60,7 @@ class Advertisements extends Component {
               {this.state.ads.map((product) => (
                 <div className="col-3">
                   <SingleProduct
-                    key={product.id}
+                    key={"ads" + product.id}
                     cid={product.id}
                     ctext={product.name}
                     cbrand={product.brand}

@@ -1,35 +1,40 @@
 import React, { Component } from "react";
 import axios from "axios";
 import SingleProduct from "./SingleProduct/SingleProduct";
+import api from "../../../routes/api";
 
 class Products extends Component {
   state = { products: [] };
-  getAllProducts = async () => {
+
+  getProductsByCategory = async () => {
+    const url = api.developmentServer + "/api/products/" + this.props.category;
     await axios
-      .get("https://5d76bf96515d1a0014085cf9.mockapi.io/product")
+      .get(url)
       .then((res) => {
-        console.log("Products: ", res.data);
-        this.setState({
-          products: res.data.slice(this.props.start, this.props.end),
-        });
+        console.log(res.data);
+        if (res.data.responseType) {
+          this.setState({ products: res.data.results });
+        }
       })
       .catch((err) => console.log(err));
   };
   componentWillMount() {
-    this.getAllProducts();
+    this.getProductsByCategory();
   }
   render() {
     return (
-      <div className="d-flex flex-row overflow-scroll">
+      <div className="d-flex flex-row row overflow-auto">
         {this.state.products.map((product) => (
-          <SingleProduct
-            key={product.id}
-            cid={product.id}
-            src={product.preview}
-            ctext={product.name}
-            cbrand={product.brand}
-            cprice={product.price}
-          />
+          <div className="col-3">
+            <SingleProduct
+              key={product.id}
+              cid={product.id}
+              src={product.image}
+              ctext={product.name}
+              cbrand={product.brand}
+              cprice={product.price}
+            />
+          </div>
         ))}
       </div>
     );

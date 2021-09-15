@@ -6,7 +6,7 @@ const SingleProduct = (props) => {
   var imageUrl = URL.createObjectURL(blob);
   return (
     <div
-      className="d-flex flex-column mx-1 my-2 w-100 rounded"
+      className="d-flex flex-column mx-1 my-2 w-100 rounded shadow"
       style={{
         backgroundColor: "lightgray",
         cursor: "pointer",
@@ -15,7 +15,7 @@ const SingleProduct = (props) => {
     >
       {props.src !== undefined ? (
         <img
-          className="w-100"
+          className="w-100 rounded"
           //width={250}
           height={150}
           src={imageUrl}

@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../../../routes/api";
 
 class CreateAdModal extends Component {
   state = {
+    user: JSON.parse(localStorage.getItem("user")),
     fields: {
       name: "",
       brand: "",
@@ -20,6 +22,24 @@ class CreateAdModal extends Component {
       photo: null,
     },
   };
+  resetFields = () => {
+    this.setState({
+      fields: {
+        name: "",
+        brand: "",
+        description: "",
+        price: "",
+        category: "",
+        old: false,
+        usedYears: "",
+        condition: "",
+        negotiable: false,
+        location: "",
+        photos: [],
+        photo: null,
+      },
+    });
+  };
   handleInput = (e) => {
     this.setState({
       fields: {
@@ -33,10 +53,7 @@ class CreateAdModal extends Component {
     fd.append("file", this.state.fields.photos);
     //console.log(this.state.photos);
     await axios
-      .post(
-        "http://192.168.29.226:8080/api/product/" + id + "/assign-image",
-        fd
-      )
+      .post(api.developmentServer + "/api/product/" + id + "/assign-image", fd)
       .then((res) => {
         console.log(res.data);
         this.props.getAds();
@@ -50,8 +67,8 @@ class CreateAdModal extends Component {
       description: this.state.fields.description,
       price: this.state.fields.price - "0",
       category: this.state.fields.category,
-      createdDate: new Date(),
-      //createdBy: "Me",
+      //createddate: new Date(),
+      createdby: this.state.user.id,
       oldd: this.state.fields.old,
       usedyr: this.state.fields.usedYears - "0",
       condition: this.state.fields.condition,
@@ -59,10 +76,11 @@ class CreateAdModal extends Component {
       loc: this.state.fields.location,
     };
     await axios
-      .post("http://192.168.29.226:8080/api/product", body)
+      .post(api.developmentServer + "/api/product", body)
       .then((res) => {
         console.log(res.data);
         this.addImageToProduct(res.data.result.id);
+        this.resetFields();
         toast.success("Product Created");
       })
       .catch((err) => console.log(err));
