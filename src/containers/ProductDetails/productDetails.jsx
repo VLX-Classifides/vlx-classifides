@@ -3,6 +3,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import * as actionsTypes from "../../store/actions/actionTypes";
 import api from "../../routes/api";
+import SingleProduct from "../Home/Products/SingleProduct/SingleProduct";
 
 class ProductDetails extends Component {
   state = {
@@ -12,15 +13,27 @@ class ProductDetails extends Component {
     categoryProducts: [],
   };
 
+  getProductsByCategory = async (category) => {
+    const url = api.developmentServer + "/api/products/" + category;
+    await axios
+      .get(url)
+      .then((res) => {
+        if (res.data.responseType) {
+          this.setState({ categoryProducts: res.data.results });
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   getProductDetails = async () => {
-    //const url = "https://5d76bf96515d1a0014085cf9.mockapi.io/product/" + this.props.match.params.id;
     const url =
-      api.developmentServer + "/product/" + this.props.match.params.id;
+      api.developmentServer + "/api/product/" + this.props.match.params.id;
     await axios
       .get(url)
       .then((res) => {
         console.log("Single Product: ", res.data);
         this.setState({ data: res.data.result });
+        this.getProductsByCategory(res.data.result.category);
         let blob = new Blob([new Uint8Array(res.data.result.image)], {
           type: "image/jpeg",
         });
@@ -119,9 +132,28 @@ class ProductDetails extends Component {
               </div>
             </div>
           </div>
-          <div className="row my-5">
-            <h1>People who bought this also bought</h1>
-          </div>
+          {this.state.categoryProducts.length > 1 ? (
+            <div className="row my-5">
+              <h1>People who bought this also bought</h1>
+              <div className="d-flex flex-row row overflow-auto">
+                {this.state.categoryProducts.map(
+                  (product) =>
+                    product.id !== this.state.data.id && (
+                      <div className="col-3">
+                        <SingleProduct
+                          key={product.id}
+                          cid={product.id}
+                          src={product.image}
+                          ctext={product.name}
+                          cbrand={product.brand}
+                          cprice={product.price}
+                        />
+                      </div>
+                    )
+                )}
+              </div>
+            </div>
+          ) : null}
         </div>
       )
     );
