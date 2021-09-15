@@ -51,52 +51,48 @@ class Header extends Component {
                   Analytics
                 </a>
               </li> */}
-              {1===1?
-              (<li className="nav-item">
-                <Link className="nav-link text-white" to="/users">
-                  Users
-                </Link>
-              </li>):(
-                <>
+              {1 === 1 ? (
                 <li className="nav-item">
-                <Link className="nav-link text-white" to="/ads">
-                  Advertisements
-                </Link>
-              </li>
-              {this.state.user.role === "seller" && (
-                <li className="nav-item">
-                  <Link className="nav-link text-white" to="/ads">
-                    Advertisements
+                  <Link className="nav-link text-white" to="/users">
+                    Users
                   </Link>
                 </li>
-              )}
-              <li className="nav-item">
-                <Link to="/checkout" className="nav-link text-white">
-                  <i class="fa fa-lg fa-shopping-cart"></i>
-                </Link>
-              </li>
-              {!this.props.auth ? (
-                <>
-                  <li className="nav-item mx-1">
-                    <Link
-                      to="/signup"
-                      className="nav-link text-white font-weight-bold"
-                    >
-                      Sign Up
-                    </Link>
-                  </li>
-                  <li className="nav-item mx-1">
-                    <Link
-                      to="/login"
-                      className="nav-link font-weight-bold btn bg-white text-primary px-5"
-                    >
-                      Login
-                    </Link>
-                  </li>
-                </>
               ) : (
-                <li className="nav-item mx-1 d-flex align-items-center">
-                  {/* <div className="d-flex align-items-center">
+                <>
+                  {this.state.user && this.state.user.role === "seller" && (
+                    <li className="nav-item">
+                      <Link className="nav-link text-white" to="/ads">
+                        Advertisements
+                      </Link>
+                    </li>
+                  )}
+                  <li className="nav-item">
+                    <Link to="/checkout" className="nav-link text-white">
+                      <i class="fa fa-lg fa-shopping-cart"></i>
+                    </Link>
+                  </li>
+                  {!this.props.auth ? (
+                    <>
+                      <li className="nav-item mx-1">
+                        <Link
+                          to="/signup"
+                          className="nav-link text-white font-weight-bold"
+                        >
+                          Sign Up
+                        </Link>
+                      </li>
+                      <li className="nav-item mx-1">
+                        <Link
+                          to="/login"
+                          className="nav-link font-weight-bold btn bg-white text-primary px-5"
+                        >
+                          Login
+                        </Link>
+                      </li>
+                    </>
+                  ) : (
+                    <li className="nav-item mx-1 d-flex align-items-center">
+                      {/* <div className="d-flex align-items-center">
                     <i
                       class="fa fa-2x my-auto text-white fa-user-circle display-6 dropdown-toggle"
                       id="dropdownMenuButton1"
@@ -120,14 +116,14 @@ class Header extends Component {
                       </div>
                     </div>
                   </div> */}
-                  <Link
-                    to="/logout"
-                    className="nav-link font-weight-bold btn bg-white text-primary px-5"
-                  >
-                    Logout
-                  </Link>
-                </li>
-              )}
+                      <Link
+                        to="/logout"
+                        className="nav-link font-weight-bold btn bg-white text-primary px-5"
+                      >
+                        Logout
+                      </Link>
+                    </li>
+                  )}
                 </>
               )}
             </ul>
