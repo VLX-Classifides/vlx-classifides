@@ -8,6 +8,7 @@ import SignUp from "../containers/Signup/Signup";
 import Logout from "../components/Logout/logout";
 import { routes } from "./routes";
 import PendingProductDetails from "../containers/Home/PendingProducts/PendingProductDetails";
+
 const router = [
   {
     path: routes.landing,

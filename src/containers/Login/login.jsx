@@ -23,6 +23,7 @@ class Login extends Component {
         console.log("Log In: ", res.data);
         if (res.data.responseType) {
           localStorage.setItem("user", JSON.stringify(res.data.result));
+          console.log("User", res.data.result);
           this.props.authenticate();
           this.setState({
             email: "",
