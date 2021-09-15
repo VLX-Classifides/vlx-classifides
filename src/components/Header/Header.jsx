@@ -53,7 +53,7 @@ class Header extends Component {
               </li> */}
               {1===1?
               (<li className="nav-item">
-                <Link className="nav-link text-white" to="/ads">
+                <Link className="nav-link text-white" to="/users">
                   Users
                 </Link>
               </li>):(

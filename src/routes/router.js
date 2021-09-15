@@ -8,6 +8,8 @@ import SignUp from "../containers/Signup/Signup";
 import Logout from "../components/Logout/logout";
 import { routes } from "./routes";
 import PendingProductDetails from "../containers/Home/PendingProducts/PendingProductDetails";
+import ViewUsers from "../containers/Home/Users/ViewUsers"
+import UserDetails from "../containers/Home/Users/UserDetails"
 const router = [
   {
     path: routes.landing,
@@ -53,6 +55,16 @@ const router = [
     path: routes.logout,
     name: "Logout",
     component: Logout,
+  },
+  {
+    path: routes.users,
+    name: "ViewUsers",
+    component: ViewUsers,
+  },
+  {
+    path: routes.userdetails,
+    name: "UserDetails",
+    component: UserDetails,
   },
 ];
 
