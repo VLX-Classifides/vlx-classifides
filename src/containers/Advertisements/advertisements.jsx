@@ -8,6 +8,7 @@ class Advertisements extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("user")),
     ads: [],
+    pending:[],
     createModal: false,
   };
 
@@ -32,15 +33,28 @@ class Advertisements extends Component {
       })
       .catch((err) => console.log(err));
   };
+  
+  getPendingAds()
+  {
+    axios.get(api.developmentServer+"/api/pendingProducts/"+this.state.user.id)
+    .then((res) => {
+      console.log("Pending Advertisements: ", res.data);
+      if (res.data.responseType) {
+        this.setState({ pending: res.data.results });
+      }
+    })
+    .catch((err) => console.log(err));
+  }
   componentWillMount() {
     this.getAdvertisements();
+    this.getPendingAds();
   }
   render() {
     return (
       <div className="container-lg pt-5 my-5">
         <div className="row">
           <div className="d-flex justify-content-start">
-            <h1>Your Advertisements</h1>
+            <h1>Your All Advertisements</h1>
           </div>
         </div>
         <div className="row my-2">
@@ -72,6 +86,31 @@ class Advertisements extends Component {
             </div>
           ) : (
             <p className="display-3">No ads placed yet</p>
+          )}
+        </div>
+        <div className="row">
+          <div className="d-flex justify-content-start">
+            <h1>Your Pending Advertisements</h1>
+          </div>
+        </div>
+        <div className="row my-5">
+          {this.state.pending.length > 0 ? (
+            <div className="d-flex flex-row flex-wrap row overflow-auto">
+              {this.state.pending.map((product) => (
+                <div className="col-3">
+                  <SingleProduct
+                    key={"pending" + product.id}
+                    cid={product.id}
+                    ctext={product.name}
+                    cbrand={product.brand}
+                    cprice={product.price}
+                    src={product.image}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="display-3">No pending ads</p>
           )}
         </div>
         <CreateAdModal

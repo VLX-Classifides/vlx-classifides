@@ -34,7 +34,7 @@ rejectProduct =(e)=>
   getProductDetails = async () => {
     //const url = "https://5d76bf96515d1a0014085cf9.mockapi.io/product/" + this.props.match.params.id;
     const url =
-      api.developmentServer + "/product/" + this.props.match.params.id;
+      api.developmentServer + "/api/product/" + this.props.match.params.id;
     await axios
       .get(url)
       .then((res) => {
