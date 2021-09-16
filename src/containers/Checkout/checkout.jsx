@@ -6,7 +6,7 @@ import * as actionTypes from "../../store/actions/actionTypes";
 
 class Checkout extends Component {
   state = {
-    createPaymentModal: false
+    createPaymentModal: false,
   };
   toggleCreatePaymentModal = () => {
     this.setState((pS, props) => {
@@ -28,7 +28,11 @@ class Checkout extends Component {
         </div>
         <div className="row">
           <div className="col-md-7">
-            <Products start={0} end={5} products={this.props.items} />
+            {this.props.items.length > 0 ? (
+              <Products products={this.props.items} />
+            ) : (
+              <h1>No items added to Cart</h1>
+            )}
           </div>
           <div className="col-md-5">
             <div
@@ -54,11 +58,19 @@ class Checkout extends Component {
               >
                 Amount: ${totalPrice}
               </p>
-              <button className="btn btn-success" onClick={this.toggleCreatePaymentModal}>Place Order</button>
+              <button
+                className="btn btn-success"
+                onClick={this.toggleCreatePaymentModal}
+              >
+                Place Order
+              </button>
             </div>
           </div>
         </div>
-        <PaymentModal show={this.state.createPaymentModal} toggle={this.toggleCreatePaymentModal} />
+        <PaymentModal
+          show={this.state.createPaymentModal}
+          toggle={this.toggleCreatePaymentModal}
+        />
       </div>
     );
   }

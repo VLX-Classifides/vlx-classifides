@@ -2,19 +2,22 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
-import $ from "jquery";
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 
 class Header extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("user")),
+    drop: false,
   };
   componentWillMount() {
     if (this.state.user) {
       this.props.authenticate();
     }
-    // $(document).ready(function () {
-    //   $(".dropdown-toggle").dropdown();
-    // });
   }
   render() {
     return (
@@ -91,37 +94,49 @@ class Header extends Component {
                   </li>
                 </>
               ) : (
-                <li className="nav-item mx-1 d-flex align-items-center">
-                  {/* <div className="d-flex align-items-center">
-                    <i
-                      class="fa fa-2x my-auto text-white fa-user-circle display-6 dropdown-toggle"
-                      id="dropdownMenuButton1"
-                      data-toggle="dropdown"
-                      style={{ cursor: "pointer" }}
-                    ></i>
-                    <div
-                      className="dropdown-menu px-2"
-                      aria-labelledby="dropdownMenuButton1"
-                    >
-                      <Link to="/profile">
-                        <p>Profile</p>
-                      </Link>
-                      <div
-                        onClick={this.toggleLogout}
-                        style={{
-                          cursor: "pointer",
-                        }}
-                      >
-                        <p>Logout</p>
-                      </div>
-                    </div>
-                  </div> */}
-                  <Link
-                    to="/logout"
-                    className="nav-link font-weight-bold btn bg-white text-primary px-5"
+                <li className="nav-item mx-2 d-flex align-items-center">
+                  <Dropdown
+                    isOpen={this.state.drop}
+                    toggle={() => this.setState({ drop: !this.state.drop })}
                   >
-                    Logout
-                  </Link>
+                    <DropdownToggle
+                      className="nav-link border-0"
+                      style={{
+                        backgroundColor: "transparent",
+                      }}
+                    >
+                      <i
+                        class="fa fa-2x my-auto border-0 text-white fa-user-circle display-6"
+                        style={{ cursor: "pointer" }}
+                      ></i>
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem>
+                        <Link
+                          to="/profile"
+                          style={{
+                            textDecoration: "none",
+                          }}
+                        >
+                          <p className="w-100 text-dark text-center py-2 m-0">
+                            Profile
+                          </p>
+                        </Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <Link
+                          to="/logout"
+                          style={{
+                            textDecoration: "none",
+                          }}
+                        >
+                          <p className="w-100 text-dark text-center py-2 m-0">
+                            Logout
+                          </p>
+                        </Link>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </li>
               )}
             </ul>
