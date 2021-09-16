@@ -12,7 +12,6 @@ class Home extends Component {
       <div className="my-5 pt-5 container-lg">
         {this.state.user && this.state.user.role === "admin" ? (
           <div>
-            <h3> Products to be approved</h3>
             <PendingProducts />
           </div>
         ) : (

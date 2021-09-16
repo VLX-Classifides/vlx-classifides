@@ -83,7 +83,7 @@ class Login extends Component {
             onChange={(e) => this.setState({ email: e.target.value })}
           />
           <input
-            type="text"
+            type="password"
             className="form-control p-3 mb-4"
             placeholder="Password"
             style={{

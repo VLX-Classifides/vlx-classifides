@@ -123,6 +123,20 @@ class Header extends Component {
                           </p>
                         </Link>
                       </DropdownItem>
+                      {this.state.user.role !== "admin" && (
+                        <DropdownItem>
+                          <Link
+                            to="/orders"
+                            style={{
+                              textDecoration: "none",
+                            }}
+                          >
+                            <p className="w-100 text-dark text-center py-2 m-0">
+                              Orders
+                            </p>
+                          </Link>
+                        </DropdownItem>
+                      )}
                       <DropdownItem>
                         <Link
                           to="/logout"

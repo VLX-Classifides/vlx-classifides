@@ -21,17 +21,20 @@ class PendingProducts extends Component {
   }
   render() {
     return (
-      <div className="d-flex flex-row overflow-scroll">
-        {this.state.products.map((product) => (
-          <PendingSingleProduct
-            key={product.id}
-            cid={product.id}
-            ctext={product.name}
-            cbrand={product.brand}
-            cprice={product.price}
-          />
-        ))}
-      </div>
+      this.state.products.length > 0 && (
+        <div className="d-flex flex-row overflow-auto">
+          <h3> Products to be approved</h3>
+          {this.state.products.map((product) => (
+            <PendingSingleProduct
+              key={product.id}
+              cid={product.id}
+              ctext={product.name}
+              cbrand={product.brand}
+              cprice={product.price}
+            />
+          ))}
+        </div>
+      )
     );
   }
 }
