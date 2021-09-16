@@ -1,3 +1,11 @@
 .bg-headercolor {
   background-color: #3c5186 !important;
 }
+
+.fs-24 {
+  font-size: 24px!important;
+  font-weight: bold!important;
+}
+.fs-20 {
+  font-size: 20px!important;
+}

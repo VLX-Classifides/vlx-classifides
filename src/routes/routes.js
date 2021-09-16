@@ -6,8 +6,9 @@ export const routes = {
   checkout: "/checkout",
   productDetails: "/product/:id",
   ads: "/ads",
-  pendingproductdetails:"/pendingproduct/:id",
+  pendingproductdetails: "/pendingproduct/:id",
   logout: "/logout",
-  users:"/users",
-  userdetails:"/userdetails/:id",
+  users: "/users",
+  userdetails: "/userdetails/:id",
+  profile: "/profile",
 };
