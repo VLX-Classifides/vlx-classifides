@@ -11,6 +11,7 @@ class ProductDetails extends Component {
     selectedImg: "",
     selectedIndex: -1,
     categoryProducts: [],
+    user: JSON.parse(localStorage.getItem("user")),
   };
 
   getProductsByCategory = async (category) => {
@@ -19,6 +20,7 @@ class ProductDetails extends Component {
       .get(url)
       .then((res) => {
         if (res.data.responseType) {
+          console.log("Products by category: ", res.data);
           this.setState({ categoryProducts: res.data.results });
         }
       })
@@ -42,11 +44,17 @@ class ProductDetails extends Component {
       })
       .catch((err) => console.log(err));
   };
+
   componentWillMount() {
-    this.getProductDetails();
+    if (!this.state.user) {
+      this.props.history.replace("/login");
+    } else {
+      this.getProductDetails();
+    }
   }
   render() {
     return (
+      this.state.user &&
       this.state.data && (
         <div className="container-lg pt-5 my-5">
           <div className="row">

@@ -118,10 +118,13 @@ class CreateAdModal extends Component {
             </div>
             <div className="my-2">
               <label htmlFor="description">Description</label>
-              <input
+              <textarea
                 type="text"
                 name="description"
                 id="description"
+                style={{
+                  resize: "none",
+                }}
                 className="form-control"
                 value={this.state.fields.description}
                 onChange={this.handleInput}

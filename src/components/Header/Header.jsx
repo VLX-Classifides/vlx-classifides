@@ -123,7 +123,7 @@ class Header extends Component {
                           </p>
                         </Link>
                       </DropdownItem>
-                      {this.state.user.role !== "admin" && (
+                      {this.state.user && this.state.user.role !== "admin" && (
                         <DropdownItem>
                           <Link
                             to="/orders"
