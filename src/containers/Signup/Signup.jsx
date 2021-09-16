@@ -14,6 +14,7 @@ class SignUp extends Component {
     role: "",
     creditCard: "",
     contact: "",
+    address:"",
   };
   signUp = async () => {
     const url = api.developmentServer + "/user/create";
@@ -22,6 +23,7 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       contact: this.state.contact,
+      address:this.state.address,
       role: this.state.role,
       creditCard: this.state.role === "seller" ? this.state.creditCard : "",
     };
@@ -137,6 +139,17 @@ class SignUp extends Component {
               }}
               value={this.state.contact}
               onChange={(e) => this.setState({ contact: e.target.value })}
+            />
+            <input
+              type="text"
+              className="form-control py-2 px-3 my-1"
+              placeholder="Address"
+              style={{
+                borderRadius: "20px",
+                fontSize: "20px",
+              }}
+              value={this.state.address}
+              onChange={(e) => this.setState({ address: e.target.value })}
             />
             <input
               type="password"

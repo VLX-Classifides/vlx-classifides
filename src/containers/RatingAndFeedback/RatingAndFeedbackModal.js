@@ -2,21 +2,25 @@ import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import api from "../../routes/api";
 class RatingAndFeedbackModal extends Component {
   state = {
-      orderId:"",
       rating:"",
       feedback:""
   };
   giveRatingAndFeedback = (e) => {
     e.preventDefault();
     const body = {
-        orderId: this.state.orderId,
+        orderid: this.props.orderId,
         rating: this.state.rating,
         feedback: this.state.feedback
     };
     console.log(body);
+    axios.post(api.developmentServer+"/rateOrder",body).then(
+      res=>{
+        toast.success(res.data.message)
+      }
+    ).catch((err) => console.log(err));
     this.props.toggle();
   };
   render() {

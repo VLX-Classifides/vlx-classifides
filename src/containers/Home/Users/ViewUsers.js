@@ -1,10 +1,13 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 import api from "../../../routes/api"
-
+import { connect } from "react-redux";
+import * as actionTypes from "../../../store/actions/actionTypes";
+import $ from "jquery";
 export class ViewUsers extends Component {
     state=
     {
+        user: JSON.parse(localStorage.getItem("user")),
         id:"",
         users:[]
     }
@@ -14,6 +17,12 @@ export class ViewUsers extends Component {
             this.setState({users:res.data.results})
         }
         ).catch((err) => console.log(err));
+    }
+    componentWillMount()
+    {
+        if (this.state.user) {
+      this.props.authenticate();
+    }
     }
     viewUser(id) {
         this.props.history.push(`/userdetails/${id}`)
@@ -29,6 +38,8 @@ export class ViewUsers extends Component {
         return (
             <div>
                 <br/><br/><br/>
+                {(this.state.user && this.state.user.role==="admin")?
+                <div>
                 <h2 className="text-center">Users List</h2>
                 <div className='row'>
                     <table className='table table-striped table-bordered text-center'>
@@ -57,10 +68,26 @@ export class ViewUsers extends Component {
                         </tbody>
                     </table>
                 </div>
+                </div>:
+                <div><br/><br/><br/>
+                <h2 className="text-center">You are not authorised</h2>
+                </div>
+                }
             </div>
         )
     }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    auth: state.user.authUser,
+  };
+};
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    authenticate: () =>
+      dispatch({ type: actionTypes.AUTHENTICATE, data: true }),
+  };
+};
 
-export default ViewUsers
+export default connect(mapStateToProps, mapDispatchtoProps)(ViewUsers);

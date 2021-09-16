@@ -67,10 +67,7 @@ class Checkout extends Component {
             </div>
           </div>
         </div>
-        <PaymentModal
-          show={this.state.createPaymentModal}
-          toggle={this.toggleCreatePaymentModal}
-        />
+        <PaymentModal show={this.state.createPaymentModal} toggle={this.toggleCreatePaymentModal} totalPrice={totalPrice}/>
       </div>
     );
   }
