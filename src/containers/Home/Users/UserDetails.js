@@ -1,13 +1,13 @@
 import axios from 'axios'
 import React, { Component } from 'react'
-
+import api from "../../../routes/api"
 export class UserDetails extends Component {
     state={
         user:""
     }
     componentDidMount()
     {
-        axios.get("http://localhost:8080/user/"+this.props.match.params.id).then(res=>{
+        axios.get(api.developmentServer+"/user/"+this.props.match.params.id).then(res=>{
             this.setState({user:res.data.result})
             console.log(this.state.user)
         })

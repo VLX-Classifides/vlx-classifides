@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { Component } from 'react'
+import api from "../../../routes/api"
 
 export class ViewUsers extends Component {
     state=
@@ -9,7 +10,7 @@ export class ViewUsers extends Component {
     }
     componentDidMount()
     {
-        axios.get("http://localhost:8080/users").then(res=>{
+        axios.get(api.developmentServer+"/users").then(res=>{
             this.setState({users:res.data.results})
         }
         ).catch((err) => console.log(err));

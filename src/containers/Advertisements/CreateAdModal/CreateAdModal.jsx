@@ -69,9 +69,9 @@ class CreateAdModal extends Component {
       category: this.state.fields.category,
       //createddate: new Date(),
       createdby: this.state.user.id,
-      oldd: this.state.fields.old,
+      old: this.state.fields.old,
       usedyr: this.state.fields.usedYears - "0",
-      condition: this.state.fields.condition,
+      condi: this.state.fields.condition,
       negotiable: this.state.fields.negotiable,
       loc: this.state.fields.location,
     };
