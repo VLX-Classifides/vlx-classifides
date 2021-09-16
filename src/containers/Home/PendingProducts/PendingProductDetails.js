@@ -27,8 +27,7 @@ rejectProduct =(e)=>
     axios.delete(url).then(res=>{
         this.setState({msg:res.data.message})
         toast.success(this.state.msg)
-        this.props.history.push("/home")
-    })
+    });
     this.props.history.push("/home")
 }
   getProductDetails = async () => {
@@ -99,6 +98,43 @@ rejectProduct =(e)=>
                 >
                   {this.state.data.description}
                 </p>
+                <h3
+                  style={{
+                    fontSize: "24px",
+                  }}
+                >
+                  Type : {this.state.data.old?"Old":"New"}
+                </h3>
+                {this.state.data.old && <div>
+                  <h3
+                  style={{
+                    fontSize: "24px",
+                  }}
+                >
+                  Used Year : {this.state.data.usedyr}
+                </h3>
+                <h3
+                  style={{
+                    fontSize: "24px",
+                  }}
+                >
+                  Condition : {this.state.data.condi}
+                </h3>
+                <h3
+                  style={{
+                    fontSize: "24px",
+                  }}
+                >
+                  Negotiable : {this.state.data.negotiable?"Yes":"No"}
+                </h3>
+                </div>}
+                <h3
+                  style={{
+                    fontSize: "24px",
+                  }}
+                >
+                  Created Date : {this.state.data.createddate}
+                </h3>
                 {/* <h3>Product Preview</h3>
                 <div className="d-flex flex-row">
                   {this.state.data.photos.map((photo, index) => (

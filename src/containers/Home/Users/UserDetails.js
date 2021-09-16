@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import api from "../../../routes/api"
 export class UserDetails extends Component {
     state={
+        crntuser: JSON.parse(localStorage.getItem("user")),
         user:""
     }
     componentDidMount()
@@ -16,6 +17,8 @@ export class UserDetails extends Component {
         return (
             <div className="container">
                 <br/><br/><br/>
+                {this.state.crntuser && this.state.crntuser.role==="admin"?
+                <div>
                 <h1 className="text-center">User Details</h1><br/><br/>
                 <div className="row text-center">
                     <table className="table">
@@ -52,6 +55,9 @@ export class UserDetails extends Component {
                         </tbody>
                     </table>
                 </div>
+                </div>:
+                <h1 className="text-center">Not authorised</h1>
+                }
             </div>
         )
     }

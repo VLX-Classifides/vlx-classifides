@@ -3,17 +3,19 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import RatingAndFeedbackModal from "../RatingAndFeedback/RatingAndFeedbackModal";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import {connect} from "react-redux";
+import api from "../../routes/api";
 class PaymentModal extends Component {
   state = {
+      user: JSON.parse(localStorage.getItem("user")),
       createRatingAndFeedbackModal:false,
       buyerId:"",
-      prdtIds:[],
       price:"",
       cardNo:"",
       cardHolder:"",
       cvv:"",
-      msg:""
+      msg:"",
+      orderid:0,
   };
   toggleRRatingAndFeedbackModal = () => {
     this.setState((pS, props) => {
@@ -30,11 +32,19 @@ class PaymentModal extends Component {
     }
     else{
       const body = {
-        cardNo: this.state.cardNo,
-        cardHolder: this.state.cardHolder,
-        cvv: this.state.cvv
+        buyerid:this.state.user.id,
+        prdtids:this.props.items.map(item=>item.id),
+        price:this.props.totalPrice,
+        buyercardno: this.state.cardNo,
       };
       console.log(body);
+      axios.post(api.developmentServer+"/placeOrder",body).then((res)=>{
+        if(res.data.responseType)
+        {
+          this.setState({orderid:res.data.result.id})
+        }
+      }).catch((err) => console.log(err));
+      console.log(this.state.orderid)
       this.props.toggle();
       toast.success("Order Placed");
       this.toggleRRatingAndFeedbackModal();
@@ -96,10 +106,16 @@ class PaymentModal extends Component {
           </div>
         </ModalFooter>
       </Modal>
-      <RatingAndFeedbackModal show={this.state.createRatingAndFeedbackModal} toggle={this.toggleRRatingAndFeedbackModal} />
+      <RatingAndFeedbackModal show={this.state.createRatingAndFeedbackModal} toggle={this.toggleRRatingAndFeedbackModal} orderId={this.state.orderid}/>
       </div>
     );
   }
 }
 
-export default PaymentModal;
+const mapStatetoProps = (state) => {
+  return {
+    items: state.checkout.items,
+  };
+};
+
+export default connect(mapStatetoProps)(PaymentModal);
