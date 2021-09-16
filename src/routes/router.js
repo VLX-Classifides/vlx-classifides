@@ -10,6 +10,7 @@ import { routes } from "./routes";
 import PendingProductDetails from "../containers/Home/PendingProducts/PendingProductDetails";
 import ViewUsers from "../containers/Home/Users/ViewUsers";
 import UserDetails from "../containers/Home/Users/UserDetails";
+import Profile from "../containers/Profile/profile";
 
 const router = [
   {
@@ -26,6 +27,11 @@ const router = [
     path: routes.signup,
     name: "Sign Up",
     component: SignUp,
+  },
+  {
+    path: routes.profile,
+    name: "User Profile",
+    component: Profile,
   },
   {
     path: routes.home,
