@@ -5,22 +5,23 @@ import { toast } from "react-toastify";
 import api from "../../routes/api";
 class RatingAndFeedbackModal extends Component {
   state = {
-      rating:"",
-      feedback:""
+    rating: "",
+    feedback: "",
   };
   giveRatingAndFeedback = (e) => {
     e.preventDefault();
     const body = {
-        orderid: this.props.orderId,
-        rating: this.state.rating,
-        feedback: this.state.feedback
+      orderId: this.props.orderId,
+      rating: this.state.rating,
+      feedback: this.state.feedback,
     };
     console.log(body);
-    axios.post(api.developmentServer+"/rateOrder",body).then(
-      res=>{
-        toast.success(res.data.message)
-      }
-    ).catch((err) => console.log(err));
+    axios
+      .post(api.developmentServer + "/rateOrder", body)
+      .then((res) => {
+        toast.success(res.data.message);
+      })
+      .catch((err) => console.log(err));
     this.props.toggle();
   };
   render() {
@@ -38,36 +39,41 @@ class RatingAndFeedbackModal extends Component {
                   <input
                     type="radio"
                     name="rating"
-                    onChange={(e) =>
-                      this.setState({rating:1})}/>{" "}1
+                    onChange={(e) => this.setState({ rating: 1 })}
+                  />{" "}
+                  1
                 </div>
                 <div className="mx-2">
                   <input
                     type="radio"
                     name="rating"
-                    onChange={(e) =>
-                        this.setState({rating:2})}/>{" "}2
+                    onChange={(e) => this.setState({ rating: 2 })}
+                  />{" "}
+                  2
                 </div>
                 <div className="mx-2">
                   <input
                     type="radio"
                     name="rating"
-                    onChange={(e) =>
-                        this.setState({rating:3})}/>{" "}3
+                    onChange={(e) => this.setState({ rating: 3 })}
+                  />{" "}
+                  3
                 </div>
                 <div className="mx-2">
                   <input
                     type="radio"
                     name="rating"
-                    onChange={(e) =>
-                        this.setState({rating:4})}/>{" "}4
+                    onChange={(e) => this.setState({ rating: 4 })}
+                  />{" "}
+                  4
                 </div>
                 <div className="mx-2">
                   <input
                     type="radio"
                     name="rating"
-                    onChange={(e) =>
-                        this.setState({rating:5})}/>{" "}5
+                    onChange={(e) => this.setState({ rating: 5 })}
+                  />{" "}
+                  5
                 </div>
               </div>
             </div>
@@ -78,7 +84,9 @@ class RatingAndFeedbackModal extends Component {
                 name="feedback"
                 className="form-control"
                 value={this.state.feedback}
-                onChange={(e)=>{this.setState({feedback:e.target.value})}}
+                onChange={(e) => {
+                  this.setState({ feedback: e.target.value });
+                }}
               />
             </div>
           </div>
@@ -88,7 +96,10 @@ class RatingAndFeedbackModal extends Component {
             <button className="btn btn-danger mx-1" onClick={this.props.toggle}>
               Cancel
             </button>
-            <button className="btn btn-success mx-1" onClick={this.giveRatingAndFeedback}>
+            <button
+              className="btn btn-success mx-1"
+              onClick={this.giveRatingAndFeedback}
+            >
               Submit
             </button>
           </div>

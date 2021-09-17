@@ -12,6 +12,10 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, {
         items: state.items.concat(action.data),
       });
+    case actionTypes.CLEAR_CHECKOUT:
+      return {
+        items: [],
+      };
     case actionTypes.DELETE_ITEM:
       const items = state.items.filter((item) => item.id !== action.id);
       return updateObject(state, {

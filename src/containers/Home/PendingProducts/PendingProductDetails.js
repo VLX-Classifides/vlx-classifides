@@ -23,7 +23,7 @@ class PendingProductDetails extends Component {
     const url =
       api.developmentServer + "/rejectProduct/" + this.props.match.params.id;
     e.preventDefault();
-    axios.delete(url).then((res) => {
+    axios.put(url).then((res) => {
       this.setState({ msg: res.data.message });
       toast.success(this.state.msg);
     });

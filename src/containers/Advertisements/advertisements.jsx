@@ -10,6 +10,7 @@ class Advertisements extends Component {
     user: JSON.parse(localStorage.getItem("user")),
     ads: [],
     pending: [],
+    rejected: [],
     createModal: false,
     activeTab: "1",
   };
@@ -50,6 +51,21 @@ class Advertisements extends Component {
         console.log("Pending Advertisements: ", res.data);
         if (res.data.responseType) {
           this.setState({ pending: res.data.results });
+          this.getRejectedAds();
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  getRejectedAds = async () => {
+    await axios
+      .get(
+        api.developmentServer + "/api/rejectedProducts/" + this.state.user.id
+      )
+      .then((res) => {
+        console.log("Rejected Advertisements: ", res.data);
+        if (res.data.responseType) {
+          this.setState({ rejected: res.data.results });
         }
       })
       .catch((err) => console.log(err));
@@ -103,6 +119,16 @@ class Advertisements extends Component {
                 Pending
               </NavLink>
             </NavItem>
+            <NavItem style={{ cursor: "pointer" }}>
+              <NavLink
+                className={this.state.activeTab === "3" ? "active" : ""}
+                onClick={() => {
+                  this.toggle("3");
+                }}
+              >
+                Rejected
+              </NavLink>
+            </NavItem>
           </Nav>
           <TabContent activeTab={this.state.activeTab}>
             <TabPane tabId="1">
@@ -146,6 +172,28 @@ class Advertisements extends Component {
                   </div>
                 ) : (
                   <p className="display-3">No pending ads</p>
+                )}
+              </div>
+            </TabPane>
+            <TabPane tabId="3">
+              <div className="row my-5">
+                {this.state.rejected.length > 0 ? (
+                  <div className="d-flex flex-row flex-wrap row overflow-auto">
+                    {this.state.rejected.map((product) => (
+                      <div className="col-3">
+                        <SingleProduct
+                          key={"rejected" + product.id}
+                          cid={product.id}
+                          ctext={product.name}
+                          cbrand={product.brand}
+                          cprice={product.price}
+                          src={product.image}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="display-3">No rejected ads</p>
                 )}
               </div>
             </TabPane>

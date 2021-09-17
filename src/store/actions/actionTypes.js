@@ -1,3 +1,4 @@
 export const ADD_TO_CHECKOUT = "ADD_TO_CHECKOUT";
+export const CLEAR_CHECKOUT = "CLEAR_CHECKOUT";
 export const DELETE_ITEM = "DELETE_ITEM";
 export const AUTHENTICATE = "AUTHENTICATE";
