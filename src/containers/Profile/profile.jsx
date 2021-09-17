@@ -30,7 +30,7 @@ class Profile extends Component {
               <div className="d-flex flex-column my-3 mx-1">
                 <div>
                   {this.state.user.primemember ? (
-                    <img className="w-100" src="/membercard.png" />
+                    <img className="w-100" src="/membercard.png" alt="img" />
                   ) : (
                     <img
                       className="w-100"
@@ -38,6 +38,7 @@ class Profile extends Component {
                       style={{
                         filter: "blur(10px)",
                       }}
+                      alt="img"
                     />
                   )}
                   {!this.state.primemember && (

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Products from "./Products/Products";
 import PaymentModal from "../Payment/PaymentModal";
 import { connect } from "react-redux";
-import * as actionTypes from "../../store/actions/actionTypes";
 
 class Checkout extends Component {
   state = {
@@ -67,7 +66,11 @@ class Checkout extends Component {
             </div>
           </div>
         </div>
-        <PaymentModal show={this.state.createPaymentModal} toggle={this.toggleCreatePaymentModal} totalPrice={totalPrice}/>
+        <PaymentModal
+          show={this.state.createPaymentModal}
+          toggle={this.toggleCreatePaymentModal}
+          totalPrice={totalPrice}
+        />
       </div>
     );
   }
