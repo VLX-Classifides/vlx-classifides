@@ -25,6 +25,8 @@ class Profile extends Component {
         console.log("Prime member: ", res.data);
         if (res.data.responseType) {
           this.setState({ user: res.data.result });
+          localStorage.removeItem("user");
+          localStorage.setItem("user", JSON.stringify(res.data.result));
         }
         this.toggleMember();
       })
@@ -135,6 +137,7 @@ class Profile extends Component {
           <MembershipModal
             show={this.state.member}
             toggle={this.toggleMember}
+            becomeMember={this.becomeMember}
           />
         </div>
       )
