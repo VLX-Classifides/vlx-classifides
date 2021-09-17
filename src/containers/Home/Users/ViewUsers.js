@@ -4,12 +4,26 @@ import api from "../../../routes/api"
 import { connect } from "react-redux";
 import * as actionTypes from "../../../store/actions/actionTypes";
 import $ from "jquery";
+import UserDetailsModal from './UserDetailsModal';
 export class ViewUsers extends Component {
     state=
     {
         user: JSON.parse(localStorage.getItem("user")),
         id:"",
-        users:[]
+        users:[],
+        showUserDetail:false,
+    }
+    /*toggleUserDetail=()=>{
+        this.setState((pS, props) => {
+          return {
+            showUserDetail: !pS.showUserDetail,
+          };
+        });
+      };
+    */
+    userDetail(uid)
+    {
+          this.props.history.push(`/userdetails/${uid}`)
     }
     componentDidMount()
     {
@@ -21,11 +35,8 @@ export class ViewUsers extends Component {
     componentWillMount()
     {
         if (this.state.user) {
-      this.props.authenticate();
-    }
-    }
-    viewUser(id) {
-        this.props.history.push(`/userdetails/${id}`)
+            this.props.authenticate();
+        }
     }
     render() {
         if(this.state.users.length===0)
@@ -54,13 +65,13 @@ export class ViewUsers extends Component {
                         <tbody>
                             {
                                 this.state.users.map(
-                                    user =>
+                                    (user) =>
                                         <tr key={user.id}>
                                             <td>{user.username}</td>
                                             <td>{user.email}</td>
                                             <td>{user.role}</td>
                                             <td>
-                                                <button className='btn btn-info' onClick={() => this.viewUser(user.id)}>View User</button>
+                                                <button className='btn btn-info' onClick={()=>this.userDetail(user.id)}>View User</button>
                                             </td>
                                         </tr>
                                 )
@@ -73,6 +84,7 @@ export class ViewUsers extends Component {
                 <h2 className="text-center">You are not authorised</h2>
                 </div>
                 }
+            {/*<UserDetailsModal show={this.state.showUserDetail} toggle={this.toggleUserDetail} id={this.state.id} />*/}
             </div>
         )
     }
