@@ -11,7 +11,7 @@ class RatingAndFeedbackModal extends Component {
   giveRatingAndFeedback = (e) => {
     e.preventDefault();
     const body = {
-      orderId: this.props.orderId,
+      orderid: this.props.orderId,
       rating: this.state.rating,
       feedback: this.state.feedback,
     };
