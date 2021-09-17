@@ -1,6 +1,4 @@
-import axios from "axios";
 import React, { Component } from "react";
-import api from "../../../routes/api";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 export class UserDetailsModal extends Component {
@@ -58,7 +56,7 @@ export class UserDetailsModal extends Component {
                         <img
                           className="w-100"
                           src="/membercard.png"
-                          alt="img"
+                          alt="cardimg"
                         />
                       </div>
                     </div>

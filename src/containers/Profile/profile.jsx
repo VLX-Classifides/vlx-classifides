@@ -1,14 +1,35 @@
 import React, { Component } from "react";
+import MembershipModal from "./Membership/MembershipModal";
+import api from "../../routes/api";
+import axios from "axios";
 
 class Profile extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("user")),
+    member: false,
+  };
+  toggleMember = () => {
+    this.setState({ member: !this.state.member });
   };
   componentWillMount() {
     if (!this.state.user) {
       this.props.history.replace("/login");
     }
   }
+  becomeMember = async () => {
+    const url =
+      api.developmentServer + "/user/primemember/" + this.state.user.id;
+    await axios
+      .put(url)
+      .then((res) => {
+        console.log("Prime member: ", res.data);
+        if (res.data.responseType) {
+          this.setState({ user: res.data.result });
+        }
+        this.toggleMember();
+      })
+      .catch((err) => console.log(err));
+  };
   render() {
     return (
       this.state.user && (
@@ -18,7 +39,11 @@ class Profile extends Component {
               <div className="d-flex flex-column my-3 mx-1">
                 <div>
                   {this.state.user.primemember ? (
-                    <img className="w-100" src="/membercard.png" alt="img" />
+                    <img
+                      className="w-100"
+                      src="/membercard.png"
+                      alt="cardimg"
+                    />
                   ) : (
                     <img
                       className="w-100"
@@ -26,7 +51,7 @@ class Profile extends Component {
                       style={{
                         filter: "blur(10px)",
                       }}
-                      alt="img"
+                      alt="cardimg"
                     />
                   )}
                   {!this.state.user.primemember && (
@@ -37,6 +62,7 @@ class Profile extends Component {
                         style={{
                           cursor: "pointer",
                         }}
+                        onClick={this.toggleMember}
                       >
                         here
                       </span>
@@ -106,6 +132,10 @@ class Profile extends Component {
               </div>
             </div>
           </div>
+          <MembershipModal
+            show={this.state.member}
+            toggle={this.toggleMember}
+          />
         </div>
       )
     );
