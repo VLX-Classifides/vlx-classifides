@@ -13,18 +13,6 @@ class Profile extends Component {
     return (
       this.state.user && (
         <div className="container my-5">
-          {/* <div className="row my-2">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <Link to="/">Dashboard</Link>
-              </li>
-              <li class="breadcrumb-item active" aria-current="page">
-                User Profile
-              </li>
-            </ol>
-          </nav>
-        </div> */}
           <div className="row mt-5 px-2">
             <div className="col-md-6 bg-white mt-5 text-center">
               <div className="d-flex flex-column my-3 mx-1">
@@ -41,7 +29,7 @@ class Profile extends Component {
                       alt="img"
                     />
                   )}
-                  {!this.state.primemember && (
+                  {!this.state.user.primemember && (
                     <p className="lead mt-3">
                       Become a member{" "}
                       <span
@@ -115,14 +103,6 @@ class Profile extends Component {
                     </p>
                   </div>
                 </div>
-                {/* <div className="d-flex flex-row mx-2 border-bottom">
-                  <div className="col-3">
-                    <p className="font-weight-bold">Biography</p>
-                  </div>
-                  <div className="col-9">
-                    <p>{this.state.user.biography}</p>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>

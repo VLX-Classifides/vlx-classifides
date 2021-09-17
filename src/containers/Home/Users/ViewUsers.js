@@ -11,6 +11,7 @@ export class ViewUsers extends Component {
     id: "",
     users: [],
     showUserDetail: false,
+    selectedUser: null,
   };
   toggleUserDetail = () => {
     this.setState((pS, props) => {
@@ -19,9 +20,9 @@ export class ViewUsers extends Component {
       };
     });
   };
-  userDetail(uid) {
-    this.props.history.push(`/userdetails/${uid}`);
-  }
+  //   userDetail(uid) {
+  //     this.props.history.push(`/userdetails/${uid}`);
+  //   }
   getAllUsers = async () => {
     await axios
       .get(api.developmentServer + "/users")
@@ -30,58 +31,62 @@ export class ViewUsers extends Component {
       })
       .catch((err) => console.log(err));
   };
-  componentDidMount() {}
   componentWillMount() {
     if (this.state.user) {
       this.props.authenticate();
+      this.getAllUsers();
+    } else {
+      this.props.history.replace("/login");
     }
   }
   render() {
     return (
-      <div>
-        <div>
-          <h2 className="text-center">Users List</h2>
-          <div className="row">
-            <table className="table table-striped table-bordered text-center">
-              <thead>
-                <tr>
-                  <th>User Name</th>
-                  <th>Users Email</th>
-                  <th>User Role</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.users.map((user, index) => (
-                  <tr key={user.id}>
-                    <td>{user.username}</td>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
-                    <td>
-                      <button
-                        className="btn btn-info"
-                        onClick={() => {
-                          this.setState(
-                            { selectedUser: this.state.users[index] },
-                            this.toggleUserDetail
-                          );
-                        }}
-                      >
-                        View User
-                      </button>
-                    </td>
+      this.state.user && (
+        <div className="mt-5">
+          <div className="container my-5">
+            <div className="row mt-5">
+              <h2 className="text-center my-4">Users List</h2>
+              <table className="table table-striped table-bordered text-center">
+                <thead>
+                  <tr>
+                    <th>User Name</th>
+                    <th>Users Email</th>
+                    <th>User Role</th>
+                    <th>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {this.state.users.map((user, index) => (
+                    <tr key={user.id}>
+                      <td>{user.username}</td>
+                      <td>{user.email}</td>
+                      <td>{user.role}</td>
+                      <td>
+                        <button
+                          className="btn btn-info"
+                          onClick={() => {
+                            this.setState(
+                              { selectedUser: this.state.users[index] },
+                              this.toggleUserDetail
+                            );
+                          }}
+                        >
+                          View User
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
+          <UserDetailsModal
+            show={this.state.showUserDetail}
+            toggle={this.toggleUserDetail}
+            user={this.state.selectedUser}
+          />
         </div>
-        <UserDetailsModal
-          show={this.state.showUserDetail}
-          toggle={this.toggleUserDetail}
-          id={this.state.id}
-        />
-      </div>
+      )
     );
   }
 }
