@@ -1,36 +1,49 @@
 import React, { Component } from "react";
+import MembershipModal from "./Membership/MembershipModal";
+import api from "../../routes/api";
+import axios from "axios";
 
 class Profile extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("user")),
+    member: false,
+  };
+  toggleMember = () => {
+    this.setState({ member: !this.state.member });
   };
   componentWillMount() {
     if (!this.state.user) {
       this.props.history.replace("/login");
     }
   }
+  becomeMember = async () => {
+    const url =
+      api.developmentServer + "/user/primemember/" + this.state.user.id;
+    await axios
+      .put(url)
+      .then((res) => {
+        console.log("Prime member: ", res.data);
+        if (res.data.responseType) {
+          this.setState({ user: res.data.result });
+        }
+        this.toggleMember();
+      })
+      .catch((err) => console.log(err));
+  };
   render() {
     return (
       this.state.user && (
         <div className="container my-5">
-          {/* <div className="row my-2">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <Link to="/">Dashboard</Link>
-              </li>
-              <li class="breadcrumb-item active" aria-current="page">
-                User Profile
-              </li>
-            </ol>
-          </nav>
-        </div> */}
           <div className="row mt-5 px-2">
             <div className="col-md-6 bg-white mt-5 text-center">
               <div className="d-flex flex-column my-3 mx-1">
                 <div>
                   {this.state.user.primemember ? (
-                    <img className="w-100" src="/membercard.png" />
+                    <img
+                      className="w-100"
+                      src="/membercard.png"
+                      alt="cardimg"
+                    />
                   ) : (
                     <img
                       className="w-100"
@@ -38,9 +51,10 @@ class Profile extends Component {
                       style={{
                         filter: "blur(10px)",
                       }}
+                      alt="cardimg"
                     />
                   )}
-                  {!this.state.primemember && (
+                  {!this.state.user.primemember && (
                     <p className="lead mt-3">
                       Become a member{" "}
                       <span
@@ -48,6 +62,7 @@ class Profile extends Component {
                         style={{
                           cursor: "pointer",
                         }}
+                        onClick={this.toggleMember}
                       >
                         here
                       </span>
@@ -114,17 +129,13 @@ class Profile extends Component {
                     </p>
                   </div>
                 </div>
-                {/* <div className="d-flex flex-row mx-2 border-bottom">
-                  <div className="col-3">
-                    <p className="font-weight-bold">Biography</p>
-                  </div>
-                  <div className="col-9">
-                    <p>{this.state.user.biography}</p>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>
+          <MembershipModal
+            show={this.state.member}
+            toggle={this.toggleMember}
+          />
         </div>
       )
     );

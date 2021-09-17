@@ -93,7 +93,7 @@ class Login extends Component {
           />
           <div className="d-flex justify-content-center">
             <button
-              className="btn btn-success w-100 btn-lg"
+              className="btn btn-success w-75 btn-lg"
               onClick={this.loginValidation}
             >
               Login

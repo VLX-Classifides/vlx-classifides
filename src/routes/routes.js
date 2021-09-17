@@ -11,4 +11,5 @@ export const routes = {
   users: "/users",
   userdetails: "/userdetails/:id",
   profile: "/profile",
+  orders: "/orders",
 };

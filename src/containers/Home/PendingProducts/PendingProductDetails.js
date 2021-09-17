@@ -1,34 +1,34 @@
 import React, { Component } from "react";
 import axios from "axios";
 import api from "../../../routes/api";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 class PendingProductDetails extends Component {
   state = {
     data: null,
-    msg:""
+    msg: "",
   };
 
-approveProduct =(e)=>
-{
-    const url =api.developmentServer + "/approveProduct/" + this.props.match.params.id;
+  approveProduct = (e) => {
+    const url =
+      api.developmentServer + "/approveProduct/" + this.props.match.params.id;
     e.preventDefault();
-    axios.put(url).then(res=>{
-        console.log(res)
-        this.setState({msg:res.data.message})
-        toast.success(this.state.msg)
-        this.props.history.push("/home")
-    })
-}
-rejectProduct =(e)=>
-{
-    const url =api.developmentServer + "/rejectProduct/" + this.props.match.params.id;
-    e.preventDefault();
-    axios.delete(url).then(res=>{
-        this.setState({msg:res.data.message})
-        toast.success(this.state.msg)
+    axios.put(url).then((res) => {
+      console.log(res);
+      this.setState({ msg: res.data.message });
+      toast.success(this.state.msg);
+      this.props.history.push("/home");
     });
-    this.props.history.push("/home")
-}
+  };
+  rejectProduct = (e) => {
+    const url =
+      api.developmentServer + "/rejectProduct/" + this.props.match.params.id;
+    e.preventDefault();
+    axios.delete(url).then((res) => {
+      this.setState({ msg: res.data.message });
+      toast.success(this.state.msg);
+    });
+    this.props.history.push("/home");
+  };
   getProductDetails = async () => {
     //const url = "https://5d76bf96515d1a0014085cf9.mockapi.io/product/" + this.props.match.params.id;
     const url =
@@ -102,31 +102,33 @@ rejectProduct =(e)=>
                     fontSize: "24px",
                   }}
                 >
-                  Type : {this.state.data.old?"Old":"New"}
+                  Type : {this.state.data.old ? "Old" : "New"}
                 </h3>
-                {this.state.data.old && <div>
-                  <h3
-                  style={{
-                    fontSize: "24px",
-                  }}
-                >
-                  Used Year : {this.state.data.usedyr}
-                </h3>
-                <h3
-                  style={{
-                    fontSize: "24px",
-                  }}
-                >
-                  Condition : {this.state.data.condi}
-                </h3>
-                <h3
-                  style={{
-                    fontSize: "24px",
-                  }}
-                >
-                  Negotiable : {this.state.data.negotiable?"Yes":"No"}
-                </h3>
-                </div>}
+                {this.state.data.old && (
+                  <div>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                      }}
+                    >
+                      Used Year : {this.state.data.usedyr}
+                    </h3>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                      }}
+                    >
+                      Condition : {this.state.data.condi}
+                    </h3>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                      }}
+                    >
+                      Negotiable : {this.state.data.negotiable ? "Yes" : "No"}
+                    </h3>
+                  </div>
+                )}
                 <h3
                   style={{
                     fontSize: "24px",

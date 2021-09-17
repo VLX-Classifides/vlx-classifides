@@ -3,19 +3,7 @@ import CreateAdModal from "./CreateAdModal/CreateAdModal";
 import axios from "axios";
 import SingleProduct from "./SingleProduct/SingleProduct";
 import api from "../../routes/api";
-import {
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
-  Row,
-  Col,
-} from "reactstrap";
+import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 
 class Advertisements extends Component {
   state = {

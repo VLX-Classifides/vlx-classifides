@@ -11,6 +11,7 @@ import PendingProductDetails from "../containers/Home/PendingProducts/PendingPro
 import ViewUsers from "../containers/Home/Users/ViewUsers";
 import UserDetails from "../containers/Home/Users/UserDetails";
 import Profile from "../containers/Profile/profile";
+import Orders from "../containers/Orders/orders";
 
 const router = [
   {
@@ -42,6 +43,11 @@ const router = [
     path: routes.checkout,
     name: "Checkout",
     component: Checkout,
+  },
+  {
+    path: routes.orders,
+    name: "Orders",
+    component: Orders,
   },
   {
     path: routes.productDetails,

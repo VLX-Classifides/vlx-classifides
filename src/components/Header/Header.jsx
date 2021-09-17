@@ -50,7 +50,9 @@ class Header extends Component {
                   </Link>
                 </li>
               )}
-              {this.state.user && this.state.user.role === "admin" ? (
+              {this.props.auth &&
+              this.state.user &&
+              this.state.user.role === "admin" ? (
                 <li className="nav-item">
                   <Link className="nav-link text-white" to="/users">
                     Users
@@ -58,7 +60,9 @@ class Header extends Component {
                 </li>
               ) : (
                 <>
-                  {this.state.user && this.state.user.role === "seller" ? (
+                  {this.props.auth &&
+                  this.state.user &&
+                  this.state.user.role === "seller" ? (
                     <li className="nav-item">
                       <Link className="nav-link text-white" to="/ads">
                         Advertisements
