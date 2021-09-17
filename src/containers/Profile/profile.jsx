@@ -135,6 +135,7 @@ class Profile extends Component {
           <MembershipModal
             show={this.state.member}
             toggle={this.toggleMember}
+            becomeMember={this.becomeMember}
           />
         </div>
       )

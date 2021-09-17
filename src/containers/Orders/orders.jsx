@@ -9,7 +9,7 @@ import React, { Component } from "react";
 //   CardContent,
 // } from "@mobiscroll/react-lite";
 import { Collapse, CardBody, Card } from "reactstrap";
-import "@mobiscroll/react-lite/dist/css/mobiscroll.min.css";
+//import "@mobiscroll/react-lite/dist/css/mobiscroll.min.css";
 import api from "../../routes/api";
 import axios from "axios";
 import Products from "./Products/Products";

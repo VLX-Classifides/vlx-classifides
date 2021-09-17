@@ -3,12 +3,8 @@ import React, { Component } from "react";
 import api from "../../../routes/api";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../store/actions/actionTypes";
-<<<<<<< HEAD
-import UserDetailsModal from './UserDetailsModal';
-=======
 import UserDetailsModal from "./UserDetailsModal";
 
->>>>>>> 7c77e7e0c972e79d1404dfeede7813e653783d0b
 export class ViewUsers extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("user")),
