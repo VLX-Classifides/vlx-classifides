@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import api from "../../routes/api";
 import { toast } from "react-toastify";
@@ -57,7 +56,6 @@ class Login extends Component {
         className="pt-5 d-flex px-2"
         style={{
           height: "100vh",
-          background: "rgb(2,0,36)",
           background:
             "linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,113,121,1) 35%, rgba(0,212,255,1) 100%)",
           width: "100vw",

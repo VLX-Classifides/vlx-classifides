@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { connect } from "react-redux";
 import api from "../../../routes/api";
 import { toast } from "react-toastify"; 
 class PendingProductDetails extends Component {

@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import api from "../../../routes/api"
 import { connect } from "react-redux";
 import * as actionTypes from "../../../store/actions/actionTypes";
-import $ from "jquery";
 import UserDetailsModal from './UserDetailsModal';
 export class ViewUsers extends Component {
     state=
