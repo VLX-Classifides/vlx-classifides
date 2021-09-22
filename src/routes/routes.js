@@ -12,4 +12,5 @@ export const routes = {
   userdetails: "/userdetails/:id",
   profile: "/profile",
   orders: "/orders",
+  revenue:"/revenue",
 };

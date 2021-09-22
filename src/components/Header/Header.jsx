@@ -141,6 +141,20 @@ class Header extends Component {
                           </Link>
                         </DropdownItem>
                       )}
+                      {this.state.user && this.state.user.role === "seller" && (
+                        <DropdownItem>
+                          <Link
+                            to="/revenue"
+                            style={{
+                              textDecoration: "none",
+                            }}
+                          >
+                            <p className="w-100 text-dark text-center py-2 m-0">
+                              Revenue
+                            </p>
+                          </Link>
+                        </DropdownItem>
+                      )}
                       <DropdownItem>
                         <Link
                           to="/logout"

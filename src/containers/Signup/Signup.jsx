@@ -4,9 +4,12 @@ import api from "../../routes/api";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
+import OtpVerifyModal from "./OtpVerifyModal";
+import { withRouter } from "react-router";
 
 class SignUp extends Component {
   state = {
+    createOtpVerifyModal:false,
     username: "",
     email: "",
     password: "",
@@ -15,10 +18,18 @@ class SignUp extends Component {
     creditCard: "",
     contact: "",
     address:"",
+    user:"",
   };
-  signUp = async () => {
-    const url = api.developmentServer + "/user/create";
-    const body = {
+  toggleOtpVerifyModal = () => {
+    this.setState((pS, props) => {
+      return {
+        createOtpVerifyModal: !pS.createOtpVerifyModal,
+      };
+    });
+  };
+  getOtp = async () => {
+      const url = api.developmentServer + "/user/send-otp";
+      this.state.user= {
       username: this.state.username,
       email: this.state.email,
       password: this.state.password,
@@ -27,30 +38,42 @@ class SignUp extends Component {
       role: this.state.role,
       creditCard: this.state.role === "seller" ? this.state.creditCard : "",
     };
+    const body={
+      name:this.state.username,
+      email:this.state.email,
+    }
+    this.toggleOtpVerifyModal();
     await axios
       .post(url, body)
       .then((res) => {
-        console.log("Sign Up: ", res.data);
+        console.log("OTP Send: ", res.data);
         if (res.data.responseType) {
-          localStorage.setItem("user", JSON.stringify(res.data.result));
-          this.props.authenticate();
-          this.setState({
-            username: "",
-            email: "",
-            password: "",
-            cpassword: "",
-            role: "",
-            creditCard: "",
-            contact: "",
-          });
           toast.success(res.data.message);
-          this.props.history.replace("/home");
         } else {
           toast.warning(res.data.message);
         }
       })
       .catch((err) => console.log(err));
   };
+
+  reSendOtp = async () => {
+    const url = api.developmentServer + "/user/send-otp";
+    const body={
+      name:this.state.username,
+      email:this.state.email,
+    }
+  await axios
+    .post(url, body)
+    .then((res) => {
+      console.log("OTP Send: ", res.data);
+      if (res.data.responseType) {
+        toast.success(res.data.message);
+      } else {
+        toast.warning(res.data.message);
+      }
+    })
+    .catch((err) => console.log(err));
+};
   validateEmail = (email) => {
     const pattern =
       /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
@@ -68,7 +91,7 @@ class SignUp extends Component {
     } else if (this.state.role === "seller" && this.state.creditCard === "") {
       toast.warning("Enter credit card number to receive a payment");
     } else {
-      this.signUp();
+      this.getOtp();
     }
   };
   render() {
@@ -212,16 +235,23 @@ class SignUp extends Component {
             </button>
           </div>
         </div>
+        <OtpVerifyModal 
+        show={this.state.createOtpVerifyModal} 
+        toggle={this.toggleOtpVerifyModal} 
+        reSendOtp={this.reSendOtp} 
+        user={this.state.user}
+        />
       </div>
     );
   }
 }
 
-const mapDispatchtoProps = (dispatch) => {
+/*const mapDispatchtoProps = (dispatch) => {
   return {
     authenticate: () =>
       dispatch({ type: actionTypes.AUTHENTICATE, data: true }),
   };
 };
 
-export default connect(null, mapDispatchtoProps)(SignUp);
+export default connect(null, mapDispatchtoProps)(SignUp);*/
+export default withRouter(SignUp);

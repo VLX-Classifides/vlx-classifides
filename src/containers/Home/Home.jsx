@@ -3,6 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import HomeCarousel from "./HomeCarousel/HomeCarousel";
 import Products from "./Products/Products";
 import PendingProducts from "./PendingProducts/PendingProducts";
+import { withRouter } from "react-router";
 class Home extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("user")),
@@ -41,4 +42,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);
