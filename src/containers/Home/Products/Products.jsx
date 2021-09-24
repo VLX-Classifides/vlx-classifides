@@ -9,7 +9,9 @@ class Products extends Component {
   getProductsByCategory = async () => {
     const url = api.developmentServer + "/api/products/" + this.props.category;
     await axios
-      .get(url)
+      .get(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         console.log(res.data);
         if (res.data.responseType) {

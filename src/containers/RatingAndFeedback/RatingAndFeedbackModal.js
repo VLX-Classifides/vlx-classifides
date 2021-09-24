@@ -17,7 +17,9 @@ class RatingAndFeedbackModal extends Component {
     };
     console.log(body);
     axios
-      .post(api.developmentServer + "/rateOrder", body)
+      .post(api.developmentServer + "/rateOrder", body, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         toast.success(res.data.message);
       })

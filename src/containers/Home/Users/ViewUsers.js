@@ -25,7 +25,9 @@ export class ViewUsers extends Component {
   //   }
   getAllUsers = async () => {
     await axios
-      .get(api.developmentServer + "/users")
+      .get(api.developmentServer + "/users", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         this.setState({ users: res.data.results });
       })

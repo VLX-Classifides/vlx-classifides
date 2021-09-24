@@ -4,37 +4,62 @@ import api from "../../routes/api";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
+import jwt_decode from "jwt-decode";
 
 class Login extends Component {
   state = {
     email: "",
     password: "",
   };
-  login = async () => {
-    const url = api.developmentServer + "/user/entry";
-    const body = {
-      email: this.state.email,
-      password: this.state.password,
-    };
+  getUserData = async (token) => {
+    const email = this.state.email;
+    const url = api.developmentServer + "/user/details?email=" + email;
     await axios
-      .post(url, body)
+      .get(url, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
-        console.log("Log In: ", res.data);
-        if (res.data.responseType) {
-          localStorage.setItem("user", JSON.stringify(res.data.result));
-          console.log("User", res.data.result);
-          this.props.authenticate();
-          this.setState({
-            email: "",
-            password: "",
-          });
-          toast.success(res.data.message);
-          this.props.history.replace("/home");
-        } else {
-          toast.warning(res.data.message);
-        }
+        console.log(res.data);
+        localStorage.setItem("user", JSON.stringify(res.data.result));
+        this.props.authenticate();
+        this.props.history.replace("/home");
+        toast.success("Login Successful");
+        this.setState({
+          email: "",
+          password: "",
+        });
       })
       .catch((err) => console.log(err));
+  };
+  login = async () => {
+    const url =
+      api.developmentServer +
+      `/api/login?email=${this.state.email}&password=${this.state.password}`;
+    // const body = {
+    //   email: this.state.email,
+    //   password: this.state.password,
+    // };
+    await axios
+      .post(url)
+      .then((res) => {
+        console.log("Log In: ", res.data);
+        this.getUserData(res.data.access_token);
+        localStorage.setItem("access", res.data.access_token);
+        // if (res.data.responseType) {
+        //   localStorage.setItem("user", JSON.stringify(res.data.result));
+        //   console.log("User", res.data.result);
+        //   this.props.authenticate();
+        //   this.setState({
+        //     email: "",
+        //     password: "",
+        //   });
+        //   toast.success(res.data.message);
+        //   this.props.history.replace("/home");
+        // } else {
+        //   toast.warning(res.data.message);
+        // }
+      })
+      .catch((err) => {
+        toast.warning("Wrong username/password");
+      });
   };
   validateEmail = (email) => {
     const pattern =

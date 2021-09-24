@@ -7,7 +7,9 @@ class PendingProducts extends Component {
   state = { products: [] };
   getPendingProducts = async () => {
     await axios
-      .get(api.developmentServer + "/pendingProducts")
+      .get(api.developmentServer + "/pendingProducts", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         console.log("Products: ", res.data);
         this.setState({

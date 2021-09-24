@@ -39,7 +39,11 @@ class PaymentModal extends Component {
       };
       console.log(body);
       axios
-        .post(api.developmentServer + "/placeOrder", body)
+        .post(api.developmentServer + "/placeOrder", body, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        })
         .then((res) => {
           if (res.data.responseType) {
             this.setState({ orderid: res.data.result.id }, () => {

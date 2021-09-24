@@ -32,7 +32,12 @@ class Advertisements extends Component {
   getAdvertisements = async () => {
     await axios
       .get(
-        api.developmentServer + "/api/products-by-user/" + this.state.user.id
+        api.developmentServer + "/api/products-by-user/" + this.state.user.id,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }
       )
       .then((res) => {
         console.log("Advertisements: ", res.data);
@@ -46,7 +51,14 @@ class Advertisements extends Component {
 
   getPendingAds = async () => {
     await axios
-      .get(api.developmentServer + "/api/pendingProducts/" + this.state.user.id)
+      .get(
+        api.developmentServer + "/api/pendingProducts/" + this.state.user.id,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }
+      )
       .then((res) => {
         console.log("Pending Advertisements: ", res.data);
         if (res.data.responseType) {
@@ -60,7 +72,12 @@ class Advertisements extends Component {
   getRejectedAds = async () => {
     await axios
       .get(
-        api.developmentServer + "/api/rejectedProducts/" + this.state.user.id
+        api.developmentServer + "/api/rejectedProducts/" + this.state.user.id,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }
       )
       .then((res) => {
         console.log("Rejected Advertisements: ", res.data);

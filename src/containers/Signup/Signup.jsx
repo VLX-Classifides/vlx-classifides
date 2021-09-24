@@ -14,7 +14,7 @@ class SignUp extends Component {
     role: "",
     creditCard: "",
     contact: "",
-    address:"",
+    address: "",
   };
   signUp = async () => {
     const url = api.developmentServer + "/user/create";
@@ -23,12 +23,14 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       contact: this.state.contact,
-      address:this.state.address,
+      address: this.state.address,
       role: this.state.role,
       creditCard: this.state.role === "seller" ? this.state.creditCard : "",
     };
     await axios
-      .post(url, body)
+      .post(url, body, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         console.log("Sign Up: ", res.data);
         if (res.data.responseType) {
