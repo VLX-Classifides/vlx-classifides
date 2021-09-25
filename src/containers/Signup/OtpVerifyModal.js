@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
 import api from "../../routes/api";
+import { withRouter } from "react-router";
 class OtpVerifyModal extends Component {
   state = {
     otp:"",
@@ -88,4 +89,4 @@ const mapDispatchtoProps = (dispatch) => {
     };
   };
   
-export default connect(null, mapDispatchtoProps)(OtpVerifyModal);
+export default connect(null, mapDispatchtoProps)(withRouter(OtpVerifyModal));

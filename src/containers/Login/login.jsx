@@ -4,11 +4,19 @@ import api from "../../routes/api";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
-
+import PutEmailModal from "./PutEmailModal"
 class Login extends Component {
   state = {
+    showPutEmail:false,
     email: "",
     password: "",
+  };
+  togglePutEmail = () => {
+    this.setState((pS, props) => {
+      return {
+        showPutEmail: !pS.showPutEmail,
+      };
+    });
   };
   login = async () => {
     const url = api.developmentServer + "/user/entry";
@@ -91,7 +99,13 @@ class Login extends Component {
             value={this.state.password}
             onChange={(e) => this.setState({ password: e.target.value })}
           />
-          <div className="d-flex justify-content-center">
+          <div className="d-flex">
+          <button
+              className="btn btn-danger w-75 btn-lg"
+              onClick={this.togglePutEmail}
+            >
+              Forgot Password?
+            </button>{" "}
             <button
               className="btn btn-success w-75 btn-lg"
               onClick={this.loginValidation}
@@ -100,6 +114,7 @@ class Login extends Component {
             </button>
           </div>
         </div>
+        <PutEmailModal show={this.state.showPutEmail} toggle={this.togglePutEmail} />
       </div>
     );
   }
