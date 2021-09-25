@@ -12,12 +12,15 @@ class ProductDetails extends Component {
     selectedIndex: -1,
     categoryProducts: [],
     user: JSON.parse(localStorage.getItem("user")),
+    images: [],
   };
 
   getProductsByCategory = async (category) => {
     const url = api.developmentServer + "/api/products/" + category;
     await axios
-      .get(url)
+      .get(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         if (res.data.responseType) {
           console.log("Products by category: ", res.data);
@@ -31,16 +34,26 @@ class ProductDetails extends Component {
     const url =
       api.developmentServer + "/api/product/" + this.props.match.params.id;
     await axios
-      .get(url)
+      .get(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         console.log("Single Product: ", res.data);
-        this.setState({ data: res.data.result });
-        this.getProductsByCategory(res.data.result.category);
-        let blob = new Blob([new Uint8Array(res.data.result.image)], {
+        this.setState({ data: res.data.result.product });
+        this.getProductsByCategory(res.data.result.product.category);
+        let blob = new Blob([new Uint8Array(res.data.result.product.image)], {
           type: "image/jpeg",
         });
         let imageUrl = URL.createObjectURL(blob);
-        this.setState({ selectedImg: imageUrl });
+        this.setState({
+          selectedImg: imageUrl,
+          images: res.data.result.images.map((image) => {
+            let blob = new Blob([new Uint8Array(image.image)], {
+              type: "image/jpeg",
+            });
+            return URL.createObjectURL(blob);
+          }),
+        });
       })
       .catch((err) => console.log(err));
   };
@@ -101,39 +114,40 @@ class ProductDetails extends Component {
                 >
                   {this.state.data.description}
                 </p>
-                <h3
-                  style={{
-                    fontSize: "24px",
-                  }}
-                >
-                  Type : {this.state.data.old?"Old":"New"}
-                </h3>
-                {this.state.data.old && <div>
-                  <h3
-                  style={{
-                    fontSize: "24px",
-                  }}
-                >
-                  Used Year : {this.state.data.usedyr}
-                </h3>
-                <h3
-                  style={{
-                    fontSize: "24px",
-                  }}
-                >
-                  Condition : {this.state.data.condi}
-                </h3>
-                <h3
-                  style={{
-                    fontSize: "24px",
-                  }}
-                >
-                  Negotiable : {this.state.data.negotiable?"Yes":"No"}
-                </h3>
-                </div>}
-                {/* <h3>Product Preview</h3>
+                {this.state.data.old && (
+                  <div>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                      }}
+                    >
+                      Type : {this.state.data.old ? "Old" : "New"}
+                    </h3>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                      }}
+                    >
+                      Used Year : {this.state.data.usedyr}
+                    </h3>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                      }}
+                    >
+                      Condition : {this.state.data.condi}
+                    </h3>
+                    <h3
+                      style={{
+                        fontSize: "24px",
+                      }}
+                    >
+                      Negotiable : {this.state.data.negotiable ? "Yes" : "No"}
+                    </h3>
+                  </div>
+                )}
                 <div className="d-flex flex-row">
-                  {this.state.data.photos.map((photo, index) => (
+                  {this.state.images.map((photo, index) => (
                     <img
                       src={photo}
                       key={"previewimg" + index}
@@ -158,7 +172,7 @@ class ProductDetails extends Component {
                       }
                     />
                   ))}
-                </div> */}
+                </div>
                 <div className="my-4">
                   <button
                     className="btn btn-primary"

@@ -9,7 +9,7 @@ import { withRouter } from "react-router";
 
 class SignUp extends Component {
   state = {
-    createOtpVerifyModal:false,
+    createOtpVerifyModal: false,
     username: "",
     email: "",
     password: "",
@@ -17,8 +17,8 @@ class SignUp extends Component {
     role: "",
     creditCard: "",
     contact: "",
-    address:"",
-    user:"",
+    address: "",
+    user: "",
   };
   toggleOtpVerifyModal = () => {
     this.setState((pS, props) => {
@@ -28,23 +28,25 @@ class SignUp extends Component {
     });
   };
   getOtp = async () => {
-      const url = api.developmentServer + "/user/send-otp";
-      this.state.user= {
+    const url = api.developmentServer + "/user/send-otp";
+    this.state.user = {
       username: this.state.username,
       email: this.state.email,
       password: this.state.password,
       contact: this.state.contact,
-      address:this.state.address,
+      address: this.state.address,
       role: this.state.role,
       creditCard: this.state.role === "seller" ? this.state.creditCard : "",
     };
-    const body={
-      name:this.state.username,
-      email:this.state.email,
-    }
+    const body = {
+      name: this.state.username,
+      email: this.state.email,
+    };
     this.toggleOtpVerifyModal();
     await axios
-      .post(url, body)
+      .post(url, body, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         console.log("OTP Send: ", res.data);
         if (res.data.responseType) {
@@ -58,22 +60,22 @@ class SignUp extends Component {
 
   reSendOtp = async () => {
     const url = api.developmentServer + "/user/send-otp";
-    const body={
-      name:this.state.username,
-      email:this.state.email,
-    }
-  await axios
-    .post(url, body)
-    .then((res) => {
-      console.log("OTP Send: ", res.data);
-      if (res.data.responseType) {
-        toast.success(res.data.message);
-      } else {
-        toast.warning(res.data.message);
-      }
-    })
-    .catch((err) => console.log(err));
-};
+    const body = {
+      name: this.state.username,
+      email: this.state.email,
+    };
+    await axios
+      .post(url, body)
+      .then((res) => {
+        console.log("OTP Send: ", res.data);
+        if (res.data.responseType) {
+          toast.success(res.data.message);
+        } else {
+          toast.warning(res.data.message);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   validateEmail = (email) => {
     const pattern =
       /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
@@ -235,11 +237,11 @@ class SignUp extends Component {
             </button>
           </div>
         </div>
-        <OtpVerifyModal 
-        show={this.state.createOtpVerifyModal} 
-        toggle={this.toggleOtpVerifyModal} 
-        reSendOtp={this.reSendOtp} 
-        user={this.state.user}
+        <OtpVerifyModal
+          show={this.state.createOtpVerifyModal}
+          toggle={this.toggleOtpVerifyModal}
+          reSendOtp={this.reSendOtp}
+          user={this.state.user}
         />
       </div>
     );

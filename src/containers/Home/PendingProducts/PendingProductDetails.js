@@ -12,21 +12,29 @@ class PendingProductDetails extends Component {
     const url =
       api.developmentServer + "/approveProduct/" + this.props.match.params.id;
     e.preventDefault();
-    axios.put(url).then((res) => {
-      console.log(res);
-      this.setState({ msg: res.data.message });
-      toast.success(this.state.msg);
-      this.props.history.push("/home");
-    });
+    axios
+      .put(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
+      .then((res) => {
+        console.log(res);
+        this.setState({ msg: res.data.message });
+        toast.success(this.state.msg);
+        this.props.history.push("/home");
+      });
   };
   rejectProduct = (e) => {
     const url =
       api.developmentServer + "/rejectProduct/" + this.props.match.params.id;
     e.preventDefault();
-    axios.put(url).then((res) => {
-      this.setState({ msg: res.data.message });
-      toast.success(this.state.msg);
-    });
+    axios
+      .put(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
+      .then((res) => {
+        this.setState({ msg: res.data.message });
+        toast.success(this.state.msg);
+      });
     this.props.history.push("/home");
   };
   getProductDetails = async () => {
@@ -34,7 +42,9 @@ class PendingProductDetails extends Component {
     const url =
       api.developmentServer + "/api/product/" + this.props.match.params.id;
     await axios
-      .get(url)
+      .get(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         console.log("Single Product: ", res.data);
         this.setState({ data: res.data.result });

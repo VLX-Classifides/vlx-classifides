@@ -50,10 +50,16 @@ class CreateAdModal extends Component {
   };
   addImageToProduct = async (id) => {
     const fd = new FormData();
-    fd.append("file", this.state.fields.photos);
+    for (let x = 0; x < this.state.fields.photos.length; x++) {
+      fd.append("files", this.state.fields.photos[x]);
+    }
+    //fd.append("file", this.state.fields.photos);
     //console.log(this.state.photos);
+    const url = api.developmentServer + "/api/product/" + id + "/assign-image";
     await axios
-      .post(api.developmentServer + "/api/product/" + id + "/assign-image", fd)
+      .post(url, fd, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         console.log(res.data);
         this.props.getAds();
@@ -76,7 +82,9 @@ class CreateAdModal extends Component {
       loc: this.state.fields.location,
     };
     await axios
-      .post(api.developmentServer + "/api/product", body)
+      .post(api.developmentServer + "/api/product", body, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         console.log(res.data);
         this.addImageToProduct(res.data.result.id);
@@ -289,15 +297,15 @@ class CreateAdModal extends Component {
                 name="photos"
                 className="form-control"
                 id="photos"
-                //multiple
+                multiple
                 onChange={(e) => {
-                  const files = e.target.files[0];
-                  // const allfiles = [];
-                  // for (let i = 0; i < files.length; i++) {
-                  //   allfiles.push(files[i]);
-                  // }
+                  const files = e.target.files;
+                  const allfiles = [];
+                  for (let i = 0; i < files.length; i++) {
+                    allfiles.push(files[i]);
+                  }
                   this.setState({
-                    fields: { ...this.state.fields, photos: files },
+                    fields: { ...this.state.fields, photos: allfiles },
                   });
                 }}
               />

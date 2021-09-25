@@ -12,15 +12,19 @@ class Orders extends Component {
   };
   getAllOrders = async () => {
     const url = api.developmentServer + "/api/orders/" + this.state.user.id;
-    await axios.get(url).then((res) => {
-      console.log("Orders: ", res.data);
-      if (res.data.responseType) {
-        this.setState({
-          orders: res.data.results,
-          opened: res.data.results.map((o) => false),
-        });
-      }
-    });
+    await axios
+      .get(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
+      .then((res) => {
+        console.log("Orders: ", res.data);
+        if (res.data.responseType) {
+          this.setState({
+            orders: res.data.results,
+            opened: res.data.results.map((o) => false),
+          });
+        }
+      });
   };
   toggle = (index) => {
     const opened = this.state.opened;

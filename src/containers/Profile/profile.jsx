@@ -20,7 +20,9 @@ class Profile extends Component {
     const url =
       api.developmentServer + "/user/primemember/" + this.state.user.id;
     await axios
-      .put(url)
+      .put(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         console.log("Prime member: ", res.data);
         if (res.data.responseType) {
