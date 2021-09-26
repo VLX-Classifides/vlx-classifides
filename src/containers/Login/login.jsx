@@ -5,10 +5,11 @@ import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
 import jwt_decode from "jwt-decode";
+import PutEmailModal from "./PutEmailModal";
 
 class Login extends Component {
   state = {
-    showPutEmail:false,
+    showPutEmail: false,
     email: "",
     password: "",
   };
@@ -118,21 +119,24 @@ class Login extends Component {
             onChange={(e) => this.setState({ password: e.target.value })}
           />
           <div className="d-flex">
-          <button
-              className="btn btn-danger w-75 btn-lg"
+            <button
+              className="btn btn-danger w-75 btn-lg mx-2"
               onClick={this.togglePutEmail}
             >
               Forgot Password?
             </button>{" "}
             <button
-              className="btn btn-success w-75 btn-lg"
+              className="btn btn-success w-75 btn-lg mx-2"
               onClick={this.loginValidation}
             >
               Login
             </button>
           </div>
         </div>
-        <PutEmailModal show={this.state.showPutEmail} toggle={this.togglePutEmail} />
+        <PutEmailModal
+          show={this.state.showPutEmail}
+          toggle={this.togglePutEmail}
+        />
       </div>
     );
   }
