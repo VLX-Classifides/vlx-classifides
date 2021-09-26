@@ -88,7 +88,7 @@ class ProductDetails extends Component {
                     fontSize: "24px",
                   }}
                 >
-                  {this.state.brand}
+                  {this.state.data.brand}
                 </h3>
                 <p
                   style={{

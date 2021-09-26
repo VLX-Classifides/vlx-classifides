@@ -5,10 +5,16 @@ import { toast } from "react-toastify";
 class PendingProductDetails extends Component {
   state = {
     data: null,
+    selectedImg: "",
+    selectedIndex: -1,
+    categoryProducts: [],
+    user: JSON.parse(localStorage.getItem("user")),
+    images: [],
     msg: "",
   };
 
   approveProduct = (e) => {
+    console.log(this.props.match.params.id)
     const url =
       api.developmentServer + "/approveProduct/" + this.props.match.params.id;
     e.preventDefault();
@@ -34,8 +40,8 @@ class PendingProductDetails extends Component {
       .then((res) => {
         this.setState({ msg: res.data.message });
         toast.success(this.state.msg);
+        this.props.history.push("/home");
       });
-    this.props.history.push("/home");
   };
   getProductDetails = async () => {
     //const url = "https://5d76bf96515d1a0014085cf9.mockapi.io/product/" + this.props.match.params.id;
@@ -47,12 +53,21 @@ class PendingProductDetails extends Component {
       })
       .then((res) => {
         console.log("Single Product: ", res.data);
-        this.setState({ data: res.data.result });
-        let blob = new Blob([new Uint8Array(res.data.result.image)], {
+        this.setState({data: res.data.result.product });
+        console.log("Product: ", this.state.data);
+        let blob = new Blob([new Uint8Array(res.data.result.product.image)], {
           type: "image/jpeg",
         });
         let imageUrl = URL.createObjectURL(blob);
-        this.setState({ selectedImg: imageUrl });
+        this.setState({
+          selectedImg: imageUrl,
+          images: res.data.result.images.map((image) => {
+            let blob = new Blob([new Uint8Array(image.image)], {
+              type: "image/jpeg",
+            });
+            return URL.createObjectURL(blob);
+          }),
+        });
       })
       .catch((err) => console.log(err));
   };
@@ -61,12 +76,13 @@ class PendingProductDetails extends Component {
   }
   render() {
     return (
+      this.state.user &&
       this.state.data && (
         <div className="container-lg pt-5 my-5">
           <div className="row">
             <div className="col-md-4 col-sm-10">
               <div className="d-flex justify-content-center">
-                <img
+              <img
                   src={this.state.selectedImg}
                   className="w-100"
                   alt="previewimg"
@@ -146,6 +162,33 @@ class PendingProductDetails extends Component {
                 >
                   Created Date : {this.state.data.createddate}
                 </h3>
+                <div className="d-flex flex-row">
+                  {this.state.images.map((photo, index) => (
+                    <img
+                      src={photo}
+                      key={"previewimg" + index}
+                      alt="smallimg"
+                      style={{
+                        height: "70px",
+                        width: "70px",
+                        borderRadius: "10px",
+                        border:
+                          this.state.selectedIndex === index
+                            ? "2px solid gray"
+                            : "white",
+                        padding:
+                          this.state.selectedIndex === index ? "3px" : "0px",
+                      }}
+                      className="mx-2"
+                      onClick={() =>
+                        this.setState({
+                          selectedImg: photo,
+                          selectedIndex: index,
+                        })
+                      }
+                    />
+                  ))}
+                </div>
                 {/* <h3>Product Preview</h3>
                 <div className="d-flex flex-row">
                   {this.state.data.photos.map((photo, index) => (

@@ -4,8 +4,7 @@ import api from "../../routes/api";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
-import jwt_decode from "jwt-decode";
-
+import PutEmailModal from './PutEmailModal'
 class Login extends Component {
   state = {
     showPutEmail:false,
