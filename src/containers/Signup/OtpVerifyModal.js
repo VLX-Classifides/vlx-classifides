@@ -8,39 +8,40 @@ import api from "../../routes/api";
 import { withRouter } from "react-router";
 class OtpVerifyModal extends Component {
   state = {
-    otp:"",
-    msg:"",
+    otp: "",
+    msg: "",
   };
   signUp = async () => {
-    const body={
-        otp:this.state.otp,
+    const body = {
+      otp: this.state.otp,
     }
-      await axios
-        .post(api.developmentServer + "/user/validate-otp", body)
-        .then((res) => {
-          if (!res.data.responseType) {
-            this.setState({msg:res.data.message});
-          }
-          else{
-              axios.post(api.developmentServer + "/user/create", this.props.user)
-              .then((res) => {
-                console.log("Sign Up: ", res.data);
-                if (res.data.responseType) {
-                  localStorage.setItem("user", JSON.stringify(res.data.result));
-                  this.props.authenticate();
-                  toast.success(res.data.message);
-                  this.props.history.push("/home");
-                  
-                } else {
-                  toast.warning(res.data.message);
-                  this.props.history.push("/login");
-                }
-              })
-              .catch((err) => console.log(err));
-              this.props.toggle();
-          }
-        })
-        .catch((err) => console.log(err));
+    await axios
+      .post(api.developmentServer + "/user/validate-otp", body)
+      .then((res) => {
+        if (!res.data.responseType) {
+          this.setState({ msg: res.data.message });
+        }
+        else {
+          axios.post(api.developmentServer + "/user/create", this.props.user)
+            .then((res) => {
+              console.log("Sign Up: ", res.data);
+              if (res.data.responseType) {
+                /*localStorage.setItem("user", JSON.stringify(res.data.result));
+                this.props.authenticate();
+                toast.success(res.data.message);
+                this.props.history.push("/home");*/
+                toast.success("Account created. Now login with your credentials");
+                this.props.history.push("/login");
+              } else {
+                toast.warning(res.data.message);
+                this.props.history.push("/login");
+              }
+            })
+            .catch((err) => console.log(err));
+          this.props.toggle();
+        }
+      })
+      .catch((err) => console.log(err));
   };
   render() {
     return (
@@ -65,7 +66,7 @@ class OtpVerifyModal extends Component {
                 />
               </div>
               <div className="my-2">
-                  <button className="btn btn-primary mx-1" onClick={this.props.reSendOtp}>Resend OTP</button>
+                <button className="btn btn-primary mx-1" onClick={this.props.reSendOtp}>Resend OTP</button>
               </div>
             </div>
           </ModalBody>
@@ -83,10 +84,10 @@ class OtpVerifyModal extends Component {
 }
 
 const mapDispatchtoProps = (dispatch) => {
-    return {
-      authenticate: () =>
-        dispatch({ type: actionTypes.AUTHENTICATE, data: true }),
-    };
+  return {
+    authenticate: () =>
+      dispatch({ type: actionTypes.AUTHENTICATE, data: true }),
   };
-  
+};
+
 export default connect(null, mapDispatchtoProps)(withRouter(OtpVerifyModal));

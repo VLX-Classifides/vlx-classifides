@@ -7,13 +7,20 @@ import * as actionTypes from "../../store/actions/actionTypes";
 import PutEmailModal from './PutEmailModal'
 class Login extends Component {
   state = {
-    showPutEmail:false,
+    showPutEmail: false,
     email: "",
     password: "",
   };
+  togglePutEmail = () => {
+    this.setState((pS, props) => {
+      return {
+        showPutEmail: !pS.showPutEmail,
+      };
+    });
+  }
   getUserData = async (token) => {
     const email = this.state.email;
-    const url = api.developmentServer + "/user/details?email=" + email;
+    const url = api.developmentServer + "/users/details?email=" + email;
     await axios
       .get(url, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
@@ -117,21 +124,24 @@ class Login extends Component {
             onChange={(e) => this.setState({ password: e.target.value })}
           />
           <div className="d-flex">
-          <button
-              className="btn btn-danger w-75 btn-lg"
+            <button
+              className="btn btn-danger w-75 btn-lg mx-2"
               onClick={this.togglePutEmail}
             >
               Forgot Password?
             </button>{" "}
             <button
-              className="btn btn-success w-75 btn-lg"
+              className="btn btn-success w-75 btn-lg mx-2"
               onClick={this.loginValidation}
             >
               Login
             </button>
           </div>
         </div>
-        <PutEmailModal show={this.state.showPutEmail} toggle={this.togglePutEmail} />
+        <PutEmailModal
+          show={this.state.showPutEmail}
+          toggle={this.togglePutEmail}
+        />
       </div>
     );
   }

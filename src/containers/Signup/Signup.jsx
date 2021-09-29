@@ -44,9 +44,7 @@ class SignUp extends Component {
     };
     this.toggleOtpVerifyModal();
     await axios
-      .post(url, body, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-      })
+      .post(url, body)
       .then((res) => {
         console.log("OTP Send: ", res.data);
         if (res.data.responseType) {

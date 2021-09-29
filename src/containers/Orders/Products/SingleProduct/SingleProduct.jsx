@@ -10,11 +10,13 @@ const SingleProduct = (props) => {
   const getProductDetails = async () => {
     const url = api.developmentServer + "/api/product/" + props.pid;
     await axios
-      .get(url)
+      .get(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
       .then((res) => {
         console.log("Single Product: ", res.data);
-        setProduct(res.data.result);
-        let blob = new Blob([new Uint8Array(res.data.result.image)], {
+        setProduct(res.data.result.product);
+        let blob = new Blob([new Uint8Array(res.data.result.product.image)], {
           type: "image/jpeg",
         });
         setImage(URL.createObjectURL(blob));

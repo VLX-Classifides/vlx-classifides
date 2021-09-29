@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as actionsTypes from "../../store/actions/actionTypes";
 import api from "../../routes/api";
 import SingleProduct from "../Home/Products/SingleProduct/SingleProduct";
-
+import UpdateProduct from "../Advertisements/UpdateProduct";
 class ProductDetails extends Component {
   state = {
     data: null,
@@ -13,8 +13,16 @@ class ProductDetails extends Component {
     categoryProducts: [],
     user: JSON.parse(localStorage.getItem("user")),
     images: [],
+    showUpdatePrdt: false,
   };
 
+  toggleUpdatePrdt = () => {
+    this.setState((pS, props) => {
+      return {
+        showUpdatePrdt: !pS.showUpdatePrdt,
+      };
+    });
+  }
   getProductsByCategory = async (category) => {
     const url = api.developmentServer + "/api/products/" + category;
     await axios
@@ -174,12 +182,19 @@ class ProductDetails extends Component {
                   ))}
                 </div>
                 <div className="my-4">
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => this.props.addToCheckout(this.state.data)}
-                  >
-                    Add to Cart
-                  </button>
+                  {(this.state.user.id === this.state.data.createdby) ?
+                    <button
+                      className="btn btn-primary"
+                      onClick={this.toggleUpdatePrdt}
+                    >
+                      Update
+                    </button> :
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => this.props.addToCheckout(this.state.data)}
+                    >
+                      Add to Cart
+                    </button>}
                 </div>
               </div>
             </div>
@@ -206,6 +221,7 @@ class ProductDetails extends Component {
               </div>
             </div>
           ) : null}
+          <UpdateProduct show={this.state.showUpdatePrdt} toggle={this.toggleUpdatePrdt} data={this.state.data} />
         </div>
       )
     );

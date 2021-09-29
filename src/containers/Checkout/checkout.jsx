@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import Products from "./Products/Products";
 import PaymentModal from "../Payment/PaymentModal";
 import { connect } from "react-redux";
-
+import { InputGroupText } from "reactstrap";
+import { toast } from "react-toastify";
+import axios from "axios";
+import api from "../../routes/api";
+import * as actionTypes from '../../store/actions/actionTypes';
 class Checkout extends Component {
   state = {
+    user: JSON.parse(localStorage.getItem("user")),
     createPaymentModal: false,
   };
   toggleCreatePaymentModal = () => {
@@ -14,6 +19,42 @@ class Checkout extends Component {
       };
     });
   };
+  handleClick=() =>
+  {
+      let cnt=0;
+      for(let i=0;i<this.props.items.length;i++)
+      {
+        if(this.props.items[i].donation===true)
+        {
+          cnt=cnt+1;
+        }
+      }
+      if(this.props.items.length===0)
+      {
+        toast.warning("No product added to cart");
+      }
+      else if(cnt===this.props.items.length)
+      {
+        const url=api.developmentServer + "/place-donation-order";
+        const body={
+          buyerid: this.state.user.id,
+          prdtids: this.props.items.map((item) => item.id),
+        }
+        axios.post(url,body, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }).then((res) => {
+          if (res.data.responseType) {
+            this.props.clearCheckout();
+              toast.success("Order Placed");
+          }
+        }).catch((err) => console.log(err));
+      }
+      else{
+        this.toggleCreatePaymentModal();
+      }
+  }
   render() {
     let totalPrice = 0;
     this.props.items.map((item) => (totalPrice += item.price - "0"));
@@ -59,7 +100,7 @@ class Checkout extends Component {
               </p>
               <button
                 className="btn btn-success"
-                onClick={this.toggleCreatePaymentModal}
+                onClick={this.handleClick}
               >
                 Place Order
               </button>
@@ -82,4 +123,10 @@ const mapStatetoProps = (state) => {
   };
 };
 
-export default connect(mapStatetoProps)(Checkout);
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    clearCheckout: () => dispatch({ type: actionTypes.CLEAR_CHECKOUT }),
+  };
+};
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(Checkout);

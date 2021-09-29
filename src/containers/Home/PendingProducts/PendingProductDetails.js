@@ -19,9 +19,15 @@ class PendingProductDetails extends Component {
       api.developmentServer + "/approveProduct/" + this.props.match.params.id;
     e.preventDefault();
     axios
-      .put(url, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-      })
+      .put(
+        url,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
         this.setState({ msg: res.data.message });
@@ -34,9 +40,15 @@ class PendingProductDetails extends Component {
       api.developmentServer + "/rejectProduct/" + this.props.match.params.id;
     e.preventDefault();
     axios
-      .put(url, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-      })
+      .put(
+        url,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }
+      )
       .then((res) => {
         this.setState({ msg: res.data.message });
         toast.success(this.state.msg);
@@ -53,8 +65,7 @@ class PendingProductDetails extends Component {
       })
       .then((res) => {
         console.log("Single Product: ", res.data);
-        this.setState({data: res.data.result.product });
-        console.log("Product: ", this.state.data);
+        this.setState({ data: res.data.result.product });
         let blob = new Blob([new Uint8Array(res.data.result.product.image)], {
           type: "image/jpeg",
         });

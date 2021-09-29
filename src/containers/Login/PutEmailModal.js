@@ -6,51 +6,49 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import api from '../../routes/api';
 import PutOtpModal from "./PutOtpModal";
 export class PutEmailModal extends Component {
-    state={
-        email:"",
-        showPutOtp:false,
+    state = {
+        email: "",
+        showPutOtp: false,
     }
-    togglePutOtp=()=>
-    {
+    togglePutOtp = () => {
         this.setState((pS, props) => {
             return {
-              showPutOtp: !pS.showPutOtp,
+                showPutOtp: !pS.showPutOtp,
             };
-          });
+        });
     }
     getOtp = async () => {
         const url = api.developmentServer + "/user/check-user";
-        const body={
-            email:this.state.email,
+        const body = {
+            email: this.state.email,
         }
-        axios.post(url,body).then(res=>{
-            if(!res.data.responseType){
+        axios.post(url, body).then(res => {
+            if (!res.data.responseType) {
                 toast.warning(res.data.message);
                 this.props.history.push("/signup");
             }
-            else{
+            else {
                 this.props.toggle();
                 this.togglePutOtp();
-                axios.post(api.developmentServer + "/user/send-otp",body).then(res=>
-                    {
-                        toast.success(res.data.message);
-                    }).catch((err) => console.log(err));
+                axios.post(api.developmentServer + "/user/send-otp", body).then(res => {
+                    toast.success(res.data.message);
+                }).catch((err) => console.log(err));
             }
         }).catch((err) => console.log(err));
     }
     validateEmail = (email) => {
         const pattern =
-          /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
         return pattern.test(email);
-      };
-      signUpValidation = () => {
+    };
+    signUpValidation = () => {
         if (!this.validateEmail(this.state.email)) {
-          toast.warning("Email field wrong");
+            toast.warning("Email field wrong");
         }
         else {
-          this.getOtp();
+            this.getOtp();
         }
-      };
+    };
     render() {
         return (
             <div>
@@ -68,7 +66,7 @@ export class PutEmailModal extends Component {
                                     value={this.state.email}
                                     placeholder="email"
                                     onChange={(e) => {
-                                        this.setState({ email: e.target.value});
+                                        this.setState({ email: e.target.value });
                                     }}
                                 />
                             </div>
@@ -82,7 +80,7 @@ export class PutEmailModal extends Component {
                         </div>
                     </ModalFooter>
                 </Modal>
-                <PutOtpModal show={this.state.showPutOtp} toggle={this.togglePutOtp} email={this.state.email}/>
+                <PutOtpModal show={this.state.showPutOtp} toggle={this.togglePutOtp} email={this.state.email} />
             </div>
         )
     }

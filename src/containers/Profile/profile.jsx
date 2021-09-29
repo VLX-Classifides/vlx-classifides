@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import MembershipModal from "./Membership/MembershipModal";
 import api from "../../routes/api";
 import axios from "axios";
-
+import UpdateProfileModal from "./UpdateProfileModal"
 class Profile extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("user")),
     member: false,
+    showUpdateProfile: false,
   };
+  setUser = () => {
+    this.setState({ user: JSON.parse(localStorage.getItem("user")) })
+  }
+  toggleUpdateProfile = () => {
+    this.setState({ showUpdateProfile: !this.state.showUpdateProfile })
+  }
   toggleMember = () => {
     this.setState({ member: !this.state.member });
   };
@@ -128,12 +135,13 @@ class Profile extends Component {
                       {this.state.user.role === "admin"
                         ? "ADMIN"
                         : this.state.user.role === "buyer"
-                        ? "BUYER"
-                        : "SELLER"}
+                          ? "BUYER"
+                          : "SELLER"}
                     </p>
                   </div>
                 </div>
               </div>
+              <button className="col-6 btn btn-primary" onClick={this.toggleUpdateProfile}>Update</button>
             </div>
           </div>
           <MembershipModal
@@ -141,6 +149,11 @@ class Profile extends Component {
             toggle={this.toggleMember}
             becomeMember={this.becomeMember}
           />
+          <UpdateProfileModal
+            show={this.state.showUpdateProfile}
+            toggle={this.toggleUpdateProfile}
+            user={this.state.user}
+            setuser={this.setUser} />
         </div>
       )
     );

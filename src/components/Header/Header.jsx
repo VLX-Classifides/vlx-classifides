@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
+import DonateModal from '../../containers/Donation/DonateModal'
 import {
   Dropdown,
   DropdownToggle,
@@ -13,7 +14,15 @@ class Header extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("user")),
     drop: false,
+    showDonate: false,
   };
+  toggleDonateModal = () =>{
+    this.setState((pS, props) => {
+      return {
+        showDonate: !pS.showDonate,
+      };
+    });
+  }
   componentWillMount() {
     if (this.state.user) {
       this.props.authenticate();
@@ -80,6 +89,14 @@ class Header extends Component {
               )}
               {!this.props.auth ? (
                 <>
+                  <li className="nav-item mx-1">
+                    <Link
+                      onClick={this.toggleDonateModal}
+                      className="btn btn-lg btn-success mx-1"
+                    >
+                      Donate
+                    </Link>
+                  </li>
                   <li className="nav-item mx-1">
                     <Link
                       to="/signup"
@@ -174,6 +191,7 @@ class Header extends Component {
             </ul>
           </div>
         </div>
+        <DonateModal show={this.state.showDonate} toggle={this.toggleDonateModal} />
       </nav>
     );
   }

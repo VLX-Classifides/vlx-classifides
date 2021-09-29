@@ -9,7 +9,6 @@ import Logout from "../components/Logout/logout";
 import { routes } from "./routes";
 import PendingProductDetails from "../containers/Home/PendingProducts/PendingProductDetails";
 import ViewUsers from "../containers/Home/Users/ViewUsers";
-import UserDetails from "../containers/Home/Users/UserDetails";
 import Profile from "../containers/Profile/profile";
 import Orders from "../containers/Orders/orders";
 import Revenue from "../containers/SellerRevenue/Revenue";
@@ -73,11 +72,6 @@ const router = [
     path: routes.users,
     name: "ViewUsers",
     component: ViewUsers,
-  },
-  {
-    path: routes.userdetails,
-    name: "UserDetails",
-    component: UserDetails,
   },
   {
     path: routes.revenue,

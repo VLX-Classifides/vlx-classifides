@@ -9,7 +9,6 @@ export const routes = {
   pendingproductdetails: "/pendingproduct/:id",
   logout: "/logout",
   users: "/users",
-  userdetails: "/userdetails/:id",
   profile: "/profile",
   orders: "/orders",
   revenue:"/revenue",
