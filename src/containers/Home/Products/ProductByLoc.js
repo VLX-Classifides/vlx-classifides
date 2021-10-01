@@ -37,6 +37,9 @@ class ProductByLoc extends Component {
     render() {
         return (
             <div className="d-flex flex-row row overflow-auto">
+                {this.state.products.length > 0 ? (
+                    <h2 id="electronics" className="mt-5 mb-2 text-start">Products Near You</h2>
+                ):null}
                 {this.state.products.map((product) => (
                     <div className="col-3">
                         <SingleProduct
