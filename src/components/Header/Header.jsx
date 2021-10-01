@@ -47,6 +47,15 @@ class Header extends Component {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
+          {/*{this.state.user ?
+            <div id="navbarNav"
+            className="collapse navbar-collapse d-flex justify-content-end">
+          <a className="btn text-white btn-outline-primary m-2" href="#electronics">Electronics</a>
+          <a className="btn text-white btn-outline-primary m-2" href="#clothing">Clothes</a>
+          <a className="btn text-white btn-outline-primary" href="#accessories">Home Accessories</a>
+        </div>:
+          null
+          }*/}
           <div
             id="navbarNav"
             className="collapse navbar-collapse d-flex justify-content-end"

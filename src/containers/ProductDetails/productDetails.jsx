@@ -154,6 +154,14 @@ class ProductDetails extends Component {
                     </h3>
                   </div>
                 )}
+                <p
+                  style={{
+                    fontSize: "20px",
+                  }}
+                  className="mb-4 text-primary"
+                >
+                  Location: {this.state.data.loc}
+                </p>
                 <div className="d-flex flex-row">
                   {this.state.images.map((photo, index) => (
                     <img

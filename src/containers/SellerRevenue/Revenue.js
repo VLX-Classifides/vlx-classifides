@@ -115,7 +115,7 @@ export class Revenue extends Component {
         x: {
           color: "black",
           grid: {
-            color: "rgba(0,0,0,0.5)",
+            color: "rgba(0,0,0,0.3)",
           },
         },
         y: {
@@ -125,7 +125,7 @@ export class Revenue extends Component {
             stepSize: 1,
           },
           grid: {
-            color: "rgba(0,0,0,0.5)",
+            color: "rgba(0,0,0,0.3)",
           },
         },
       },
