@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
-import DonateModal from '../../containers/Donation/DonateModal'
+import DonateModal from "../../containers/Donation/DonateModal";
+import { withRouter } from "react-router";
 import {
   Dropdown,
   DropdownToggle,
@@ -12,17 +13,22 @@ import {
 
 class Header extends Component {
   state = {
+    // user: this.props.location.hasOwnProperty("user")
+    //   ? this.props.location.user
+    //   : JSON.parse(localStorage.getItem("user")),
     user: JSON.parse(localStorage.getItem("user")),
     drop: false,
     showDonate: false,
+    forceRefresh: false,
+    auth: true,
   };
-  toggleDonateModal = () =>{
+  toggleDonateModal = () => {
     this.setState((pS, props) => {
       return {
         showDonate: !pS.showDonate,
       };
     });
-  }
+  };
   componentWillMount() {
     if (this.state.user) {
       this.props.authenticate();
@@ -92,7 +98,7 @@ class Header extends Component {
                   <li className="nav-item mx-1">
                     <Link
                       onClick={this.toggleDonateModal}
-                      className="btn btn-lg btn-success mx-1"
+                      className="nav-link text-warning mx-1 font-weight-bold"
                     >
                       Donate
                     </Link>
@@ -191,7 +197,10 @@ class Header extends Component {
             </ul>
           </div>
         </div>
-        <DonateModal show={this.state.showDonate} toggle={this.toggleDonateModal} />
+        <DonateModal
+          show={this.state.showDonate}
+          toggle={this.toggleDonateModal}
+        />
       </nav>
     );
   }
@@ -200,6 +209,7 @@ class Header extends Component {
 const mapStateToProps = (state) => {
   return {
     auth: state.user.authUser,
+    user: state.user.userData,
   };
 };
 
@@ -211,3 +221,4 @@ const mapDispatchtoProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchtoProps)(Header);
+// export default withRouter(Header);
