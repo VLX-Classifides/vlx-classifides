@@ -18,7 +18,7 @@ export class ChangePasswordModal extends Component {
         email: this.props.email,
         password: this.state.password,
       };
-      axios.post(url, body).then((res) => {
+      await axios.post(url, body).then((res) => {
         if (res.data.responseType) {
           toast.success(res.data.message);
           this.props.toggle();

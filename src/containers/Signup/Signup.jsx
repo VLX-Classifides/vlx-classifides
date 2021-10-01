@@ -226,7 +226,7 @@ class SignUp extends Component {
               />
             )}
           </div>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center mt-2">
             <button
               className="btn btn-primary w-50 btn-lg"
               onClick={this.signUpValidation}
