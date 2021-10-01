@@ -28,19 +28,15 @@ class Home extends Component {
           </div>
         )}
         <div>
-          <h2 id="electronics" className="mt-5 mb-2 text-start">Products Near You</h2>
           <ProductByLoc />
         </div>
         <div>
-          <h2 id="electronics" className="mt-5 mb-2 text-start">Electronic Appliances</h2>
           <Products category="electronics" />
         </div>
         <div>
-          <h2 id="clothing" className="mt-5 mb-2 text-start">Clothes for Men and Women</h2>
           <Products category="clothing" />
         </div>
         <div>
-          <h2 id="accessories" className="mt-5 mb-2 text-start">Home Accessories</h2>
           <Products category="accessories" />
         </div>
       </div>

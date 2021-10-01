@@ -4,7 +4,7 @@ import api from "../../routes/api";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
-import PutEmailModal from './PutEmailModal'
+import PutEmailModal from "./PutEmailModal";
 class Login extends Component {
   state = {
     showPutEmail: false,
@@ -17,7 +17,7 @@ class Login extends Component {
         showPutEmail: !pS.showPutEmail,
       };
     });
-  }
+  };
   getUserData = async (token) => {
     const email = this.state.email;
     const url = api.developmentServer + "/users/details?email=" + email;
@@ -25,9 +25,13 @@ class Login extends Component {
       .get(url, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
         console.log(res.data);
+        this.props.storeData(res.data.result);
         localStorage.setItem("user", JSON.stringify(res.data.result));
         this.props.authenticate();
-        this.props.history.replace("/home");
+        this.props.history.replace({
+          pathname: "/home",
+          user: res.data.result,
+        });
         toast.success("Login Successful");
         this.setState({
           email: "",
@@ -49,6 +53,7 @@ class Login extends Component {
       .then((res) => {
         console.log("Log In: ", res.data);
         this.getUserData(res.data.access_token);
+        this.props.authenticate();
         localStorage.setItem("access", res.data.access_token);
         // if (res.data.responseType) {
         //   localStorage.setItem("user", JSON.stringify(res.data.result));
@@ -151,6 +156,8 @@ const mapDispatchtoProps = (dispatch) => {
   return {
     authenticate: () =>
       dispatch({ type: actionTypes.AUTHENTICATE, data: true }),
+    storeData: (data) =>
+      dispatch({ type: actionTypes.STORE_USER_DATA, data: data }),
   };
 };
 

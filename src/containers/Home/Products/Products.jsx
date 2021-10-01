@@ -26,6 +26,15 @@ class Products extends Component {
   render() {
     return (
       <div className="d-flex flex-row row overflow-auto">
+        {this.state.products.length > 0 ? (
+          this.props.category === "electronics" ? (
+            <h2 className="mt-5 mb-2 text-start">Electronic Appliances</h2>
+          ) : this.props.category === "clothing" ? (
+            <h2 className="mt-5 mb-2 text-start">Clothes for Men and Women</h2>
+          ) : this.props.category === "accessories" ? (
+            <h2 className="mt-5 mb-2 text-start">Home Accessories</h2>
+          ) : null
+        ) : null}
         {this.state.products.map((product) => (
           <div className="col-3">
             <SingleProduct
