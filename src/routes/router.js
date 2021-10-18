@@ -12,6 +12,7 @@ import ViewUsers from "../containers/Home/Users/ViewUsers";
 import Profile from "../containers/Profile/profile";
 import Orders from "../containers/Orders/orders";
 import Revenue from "../containers/SellerRevenue/Revenue";
+import Chats from "../containers/Chats/Chats";
 const router = [
   {
     path: routes.landing,
@@ -77,6 +78,11 @@ const router = [
     path: routes.revenue,
     name: "Revenue",
     component: Revenue,
+  },
+  {
+    path: routes.chats,
+    name: "Chats",
+    component: Chats,
   },
 ];
 

@@ -160,6 +160,7 @@ class Header extends Component {
                         </Link>
                       </DropdownItem>
                       {this.state.user && this.state.user.role !== "admin" && (
+                        <div>
                         <DropdownItem>
                           <Link
                             to="/orders"
@@ -171,7 +172,22 @@ class Header extends Component {
                               Orders
                             </p>
                           </Link>
+                          
                         </DropdownItem>
+                        <DropdownItem>
+                        <Link
+                          to="/chats"
+                          style={{
+                            textDecoration: "none",
+                          }}
+                        >
+                          <p className="w-100 text-dark text-center py-2 m-0">
+                            Chats
+                          </p>
+                        </Link>
+                        
+                      </DropdownItem>
+                      </div>
                       )}
                       {this.state.user && this.state.user.role === "seller" && (
                         <DropdownItem>

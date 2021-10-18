@@ -12,4 +12,5 @@ export const routes = {
   profile: "/profile",
   orders: "/orders",
   revenue:"/revenue",
+  chats:"/chats",
 };

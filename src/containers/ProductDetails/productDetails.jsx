@@ -5,6 +5,7 @@ import * as actionsTypes from "../../store/actions/actionTypes";
 import api from "../../routes/api";
 import SingleProduct from "../Home/Products/SingleProduct/SingleProduct";
 import UpdateProduct from "../Advertisements/UpdateProduct";
+import ChatModal from "./ChatModal";
 class ProductDetails extends Component {
   state = {
     data: null,
@@ -14,6 +15,7 @@ class ProductDetails extends Component {
     user: JSON.parse(localStorage.getItem("user")),
     images: [],
     showUpdatePrdt: false,
+    showChatModal:false,
   };
 
   toggleUpdatePrdt = () => {
@@ -22,6 +24,14 @@ class ProductDetails extends Component {
         showUpdatePrdt: !pS.showUpdatePrdt,
       };
     });
+  }
+  toggleChatModal=()=>
+  {
+    this.setState((pS,props)=>{
+      return{
+        showChatModal:!pS.showChatModal,
+      }
+    })
   }
   getProductsByCategory = async (category) => {
     const url = api.developmentServer + "/api/products/" + category;
@@ -203,6 +213,9 @@ class ProductDetails extends Component {
                     >
                       Add to Cart
                     </button>}
+                    {((this.state.user.id !== this.state.data.createdby)&&(this.state.data.donation===false))?
+                    <button className="btn btn-success mx-2" onClick={this.toggleChatModal}>
+                      Chat With Seller</button>:null}
                 </div>
               </div>
             </div>
@@ -230,6 +243,7 @@ class ProductDetails extends Component {
             </div>
           ) : null}
           <UpdateProduct show={this.state.showUpdatePrdt} toggle={this.toggleUpdatePrdt} data={this.state.data} />
+          <ChatModal show={this.state.showChatModal} toggle={this.toggleChatModal} seller={this.state.data.createdby}/>
         </div>
       )
     );

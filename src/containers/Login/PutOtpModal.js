@@ -8,8 +8,8 @@ import ChangePasswordModal from './ChangePasswordModal'
 export class PutOtpModal extends Component {
     state = {
         showChangePassword: false,
-        otp:"",
-        msg:"",
+        otp: "",
+        msg: "",
     }
     toggleChangePassword = () => {
         this.setState((pS, props) => {
@@ -18,32 +18,31 @@ export class PutOtpModal extends Component {
             };
         });
     }
-    reSendOtp =async()=>
-    {
-        const body={
-            email:this.props.email,
+    reSendOtp = async () => {
+        const body = {
+            email: this.props.email,
         }
-        axios.post(api.developmentServer+"/user/send-otp",body).then(res=>{
+        axios.post(api.developmentServer + "/user/send-otp", body).then(res => {
             toast.success(res.data.message);
         })
     }
     validateOtp = async () => {
-        const body={
-            otp:this.state.otp,
+        const body = {
+            otp: this.state.otp,
         }
-          await axios
+        await axios
             .post(api.developmentServer + "/user/validate-otp", body)
             .then((res) => {
-              if (!res.data.responseType) {
-                this.setState({msg:res.data.message});
-              }
-              else{
-                  this.props.toggle();
-                  this.toggleChangePassword();
-              }
+                if (!res.data.responseType) {
+                    this.setState({ msg: res.data.message });
+                }
+                else {
+                    this.props.toggle();
+                    this.toggleChangePassword();
+                }
             })
             .catch((err) => console.log(err));
-        
+
     }
     render() {
         return (
@@ -54,11 +53,11 @@ export class PutOtpModal extends Component {
                         <h4 className="text-danger">{this.state.msg}</h4>
                     </ModalHeader>
                     <ModalBody>
-                        <div className="d-flex flex-column py-3">
-                            <div className="my-2">
+                        <div className="d-flex flex-row align-items-center justify-content-between py-3">
+                            <div className="my-2 w-75">
                                 <label htmlFor="otp">OTP</label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     className="form-control"
                                     value={this.state.otp}
                                     placeholder="6 digit otp"
@@ -68,19 +67,24 @@ export class PutOtpModal extends Component {
                                 />
                             </div>
                             <div className="my-2">
-                                <button className="btn btn-primary mx-1" onClick={this.reSendOtp}>Resend OTP</button>
+                                <button className="btn btn-primary mx-1 mt-4" onClick={this.reSendOtp}>Resend OTP</button>
                             </div>
                         </div>
-                    </ModalBody>
-                    <ModalFooter>
                         <div className="d-flex flex-row justify-content-center">
                             <button className="btn btn-success mx-1" onClick={this.validateOtp}>
                                 Submit
                             </button>
                         </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        {/*<div className="d-flex flex-row justify-content-center">
+                            <button className="btn btn-success mx-1" onClick={this.validateOtp}>
+                                Submit
+                            </button>
+                                </div>*/}
                     </ModalFooter>
                 </Modal>
-                <ChangePasswordModal show={this.state.showChangePassword} toggle={this.toggleChangePassword} email={this.props.email}/>
+                <ChangePasswordModal show={this.state.showChangePassword} toggle={this.toggleChangePassword} email={this.props.email} />
             </div>
         )
     }
