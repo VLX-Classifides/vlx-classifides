@@ -5,6 +5,7 @@ import * as actionsTypes from "../../store/actions/actionTypes";
 import api from "../../routes/api";
 import SingleProduct from "../Home/Products/SingleProduct/SingleProduct";
 import UpdateProduct from "../Advertisements/UpdateProduct";
+import ChatModal from "./ChatModal";
 class ProductDetails extends Component {
   state = {
     data: null,
@@ -14,12 +15,20 @@ class ProductDetails extends Component {
     user: JSON.parse(localStorage.getItem("user")),
     images: [],
     showUpdatePrdt: false,
+    showChatModal: false,
   };
 
   toggleUpdatePrdt = () => {
     this.setState((pS, props) => {
       return {
         showUpdatePrdt: !pS.showUpdatePrdt,
+      };
+    });
+  };
+  toggleChatModal = () => {
+    this.setState((pS, props) => {
+      return {
+        showChatModal: !pS.showChatModal,
       };
     });
   };
@@ -160,6 +169,14 @@ class ProductDetails extends Component {
                     </h3>
                   </div>
                 )}
+                <p
+                  style={{
+                    fontSize: "20px",
+                  }}
+                  className="mb-4 text-primary"
+                >
+                  Location: {this.state.data.loc}
+                </p>
                 <div className="d-flex flex-row">
                   {this.state.images.map((photo, index) => (
                     <img
@@ -203,6 +220,15 @@ class ProductDetails extends Component {
                       Add to Cart
                     </button>
                   )}
+                  {this.state.user.id !== this.state.data.createdby &&
+                  this.state.data.donation === false ? (
+                    <button
+                      className="btn btn-success mx-2"
+                      onClick={this.toggleChatModal}
+                    >
+                      Chat With Seller
+                    </button>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -233,6 +259,11 @@ class ProductDetails extends Component {
             show={this.state.showUpdatePrdt}
             toggle={this.toggleUpdatePrdt}
             data={this.state.data}
+          />
+          <ChatModal
+            show={this.state.showChatModal}
+            toggle={this.toggleChatModal}
+            seller={this.state.data.createdby}
           />
         </div>
       )

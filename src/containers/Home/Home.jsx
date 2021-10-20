@@ -4,6 +4,7 @@ import HomeCarousel from "./HomeCarousel/HomeCarousel";
 import Products from "./Products/Products";
 import PendingProducts from "./PendingProducts/PendingProducts";
 import { withRouter } from "react-router";
+import ProductByLoc from "./Products/ProductByLoc";
 class Home extends Component {
   state = {
     user: JSON.parse(localStorage.getItem("user")),
@@ -11,6 +12,7 @@ class Home extends Component {
   render() {
     return (
       <div className="my-5 pt-5 container-lg">
+        
         {this.state.user && this.state.user.role === "admin" ? (
           <div>
             <PendingProducts />
@@ -25,6 +27,9 @@ class Home extends Component {
             <HomeCarousel />
           </div>
         )}
+        <div>
+          <ProductByLoc />
+        </div>
         <div>
           <Products category="electronics" />
         </div>

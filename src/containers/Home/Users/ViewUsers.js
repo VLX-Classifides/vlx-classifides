@@ -43,7 +43,7 @@ export class ViewUsers extends Component {
   }
   render() {
     return (
-      this.state.user && (
+      this.state.user && this.state.user.role==="admin" && (
         <div className="mt-5">
           <div className="container my-5">
             <div className="row mt-5">

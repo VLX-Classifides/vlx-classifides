@@ -53,6 +53,15 @@ class Header extends Component {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
+          {/*{this.state.user ?
+            <div id="navbarNav"
+            className="collapse navbar-collapse d-flex justify-content-end">
+          <a className="btn text-white btn-outline-primary m-2" href="#electronics">Electronics</a>
+          <a className="btn text-white btn-outline-primary m-2" href="#clothing">Clothes</a>
+          <a className="btn text-white btn-outline-primary" href="#accessories">Home Accessories</a>
+        </div>:
+          null
+          }*/}
           <div
             id="navbarNav"
             className="collapse navbar-collapse d-flex justify-content-end"
@@ -151,6 +160,7 @@ class Header extends Component {
                         </Link>
                       </DropdownItem>
                       {this.state.user && this.state.user.role !== "admin" && (
+                        <div>
                         <DropdownItem>
                           <Link
                             to="/orders"
@@ -162,7 +172,22 @@ class Header extends Component {
                               Orders
                             </p>
                           </Link>
+                          
                         </DropdownItem>
+                        <DropdownItem>
+                        <Link
+                          to="/chats"
+                          style={{
+                            textDecoration: "none",
+                          }}
+                        >
+                          <p className="w-100 text-dark text-center py-2 m-0">
+                            Chats
+                          </p>
+                        </Link>
+                        
+                      </DropdownItem>
+                      </div>
                       )}
                       {this.state.user && this.state.user.role === "seller" && (
                         <DropdownItem>

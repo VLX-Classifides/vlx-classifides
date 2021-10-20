@@ -166,6 +166,14 @@ class PendingProductDetails extends Component {
                     </h3>
                   </div>
                 )}
+                <p
+                  style={{
+                    fontSize: "20px",
+                  }}
+                  className="mb-4 text-primary"
+                >
+                  Location: {this.state.data.loc}
+                </p>
                 <h3
                   style={{
                     fontSize: "24px",

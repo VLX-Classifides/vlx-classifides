@@ -50,7 +50,7 @@ export class UserDetailsModal extends Component {
             </div> */}
               <div className="row px-2">
                 {this.props.user.primemember ? (
-                  <div className="col-md-12 bg-white text-center">
+                  <div className="col-md-3 bg-white text-center">
                     <div className="d-flex flex-column my-3 mx-1">
                       <div>
                         <img
