@@ -32,6 +32,7 @@ class Login extends Component {
           pathname: "/home",
           user: res.data.result,
         });
+        window.location.reload();
         toast.success("Login Successful");
         this.setState({
           email: "",

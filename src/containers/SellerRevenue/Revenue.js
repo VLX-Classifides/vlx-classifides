@@ -133,7 +133,7 @@ export class Revenue extends Component {
       },
     };
     return (
-      <div className="container">
+      <div className="container mb-5">
         <br />
         <br />
         <br />

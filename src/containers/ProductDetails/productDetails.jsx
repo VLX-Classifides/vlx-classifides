@@ -22,7 +22,7 @@ class ProductDetails extends Component {
         showUpdatePrdt: !pS.showUpdatePrdt,
       };
     });
-  }
+  };
   getProductsByCategory = async (category) => {
     const url = api.developmentServer + "/api/products/" + category;
     await axios
@@ -73,6 +73,12 @@ class ProductDetails extends Component {
       this.getProductDetails();
     }
   }
+  componentDidUpdate() {
+    if (this.state.data && this.state.data.id != this.props.match.params.id) {
+      this.getProductDetails();
+    }
+  }
+
   render() {
     return (
       this.state.user &&
@@ -182,19 +188,21 @@ class ProductDetails extends Component {
                   ))}
                 </div>
                 <div className="my-4">
-                  {(this.state.user.id === this.state.data.createdby) ?
+                  {this.state.user.id === this.state.data.createdby ? (
                     <button
                       className="btn btn-primary"
                       onClick={this.toggleUpdatePrdt}
                     >
                       Update
-                    </button> :
+                    </button>
+                  ) : (
                     <button
                       className="btn btn-primary"
                       onClick={() => this.props.addToCheckout(this.state.data)}
                     >
                       Add to Cart
-                    </button>}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -221,7 +229,11 @@ class ProductDetails extends Component {
               </div>
             </div>
           ) : null}
-          <UpdateProduct show={this.state.showUpdatePrdt} toggle={this.toggleUpdatePrdt} data={this.state.data} />
+          <UpdateProduct
+            show={this.state.showUpdatePrdt}
+            toggle={this.toggleUpdatePrdt}
+            data={this.state.data}
+          />
         </div>
       )
     );

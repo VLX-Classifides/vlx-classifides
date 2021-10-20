@@ -22,26 +22,26 @@ class PendingProducts extends Component {
     this.getPendingProducts();
   }
   render() {
-    return (
-      this.state.products.length > 0 && (
-        <div className="">
-          <h3> Products to be approved</h3>
-          <div className="d-flex flex-row row overflow-auto">
-            {this.state.products.map((product) => (
-              <div className="col-3">
-                <PendingSingleProduct
-                  key={product.id}
-                  cid={product.id}
-                  ctext={product.name}
-                  cbrand={product.brand}
-                  cprice={product.price}
-                  src={product.image}
-                />
-              </div>
-            ))}
-          </div>
+    return this.state.products.length > 0 ? (
+      <div className="">
+        <h3> Products to be approved</h3>
+        <div className="d-flex flex-row row overflow-auto">
+          {this.state.products.map((product) => (
+            <div className="col-3">
+              <PendingSingleProduct
+                key={product.id}
+                cid={product.id}
+                ctext={product.name}
+                cbrand={product.brand}
+                cprice={product.price}
+                src={product.image}
+              />
+            </div>
+          ))}
         </div>
-      )
+      </div>
+    ) : (
+      <h2>No products pending</h2>
     );
   }
 }
