@@ -197,7 +197,7 @@ export class Chats extends Component {
                   </div>
                 </div>
                 <div
-                  className="d-flex flex-column justify-content-end h-100 overflow-scroll"
+                  className="d-flex flex-column justify-content-start h-100 overflow-scroll"
                   style={{
                     backgroundImage:
                       "url('http://localhost:3000/chatback.jpeg')",
