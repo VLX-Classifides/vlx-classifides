@@ -81,10 +81,85 @@ class ChatModal extends Component {
     } else if (this.props.seller !== 0) {
       this.getSellerDetail();
       this.getAllChats();
-    } else {
     }
+
+    setInterval(() => {
+      if (this.state.anotherPerson) {
+        this.getAllChats();
+      }
+    }, 5000);
   }
+  dateFormatUpdate = (datee) => {
+    if (datee) {
+      const month = datee.split("/")[1];
+      const day = datee.split("/")[0];
+      const year = datee.split("/")[2];
+      return day + "-" + month + "-" + year;
+    } else return "";
+  };
   render() {
+    let lastDate = null;
+    const sellerchats = [];
+    this.state.chats.map((chat) => {
+      if (
+        this.dateFormatUpdate(lastDate) !==
+        this.dateFormatUpdate(chat.timestamp.split(" ")[0])
+      ) {
+        sellerchats.push(
+          <div className="d-flex flex-row w-100 justify-content-center my-2 px-2">
+            <p
+              className="m-0 px-3 py-2"
+              style={{
+                borderRadius: "10px",
+                maxWidth: "75%",
+                backgroundColor: "#88E0EF",
+              }}
+            >
+              {chat.timestamp.split(" ")[0]}
+            </p>
+          </div>
+        );
+      }
+      if (chat.sender === this.state.user.id) {
+        sellerchats.push(
+          <div className="d-flex flex-row w-100 justify-content-end my-2 px-2">
+            <p
+              className="m-0 px-3 py-2 bg-white"
+              style={{
+                borderRadius: "10px",
+                maxWidth: "75%",
+              }}
+            >
+              {chat.content} <br />
+              <div
+                className="d-flex justify-content-end"
+                style={{
+                  fontSize: "12px",
+                }}
+              >
+                {chat.timestamp.split(" ")[1]}
+              </div>
+            </p>
+          </div>
+        );
+      } else {
+        sellerchats.push(
+          <div className="d-flex flex-row w-100 justify-content-start my-2 px-2">
+            <p
+              className="m-0 px-3 py-2 bg-primary text-white"
+              style={{
+                borderRadius: "10px",
+                maxWidth: "75%",
+              }}
+            >
+              {chat.content} <br />
+              <span className="text-end">{chat.timestamp.split(" ")[1]}</span>
+            </p>
+          </div>
+        );
+      }
+      lastDate = chat.timestamp.split(" ")[0];
+    });
     return (
       <div>
         <Modal size="xl" isOpen={this.props.show} toggle={this.props.toggle}>
@@ -128,6 +203,15 @@ class ChatModal extends Component {
                   }}
                 >
                   {this.state.chats.length > 0 ? (
+                    sellerchats
+                  ) : (
+                    <div className="d-flex flex-row w-100 justify-content-center my-2 px-2">
+                      <p className="m-0 px-3 py-2 lead">
+                        You don't have any conversation yet
+                      </p>
+                    </div>
+                  )}
+                  {/* {this.state.chats.length > 0 ? (
                     this.state.chats.map((chat) => {
                       if (chat.sender === this.state.user.id) {
                         return (
@@ -176,7 +260,7 @@ class ChatModal extends Component {
                         You don't have any conversation yet
                       </p>
                     </div>
-                  )}
+                  )} */}
                 </div>
                 <div className="d-flex flex-row justify-content-center">
                   <div className="d-flex flex-row w-100 justify-content-around">

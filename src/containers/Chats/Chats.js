@@ -67,22 +67,99 @@ export class Chats extends Component {
         console.log(err);
       });
   };
-  //   componentDidUpdate(pP, pS, sS) {
-  //     if (pS.allChats !== this.state.allChats) {
-  //       this.getChats();
-  //     }
-  //     // if (pS.chatList !== this.state.chatList) {
-  //     //   this.getChatList();
-  //     // }
-  //   }
+  // componentDidUpdate(pP, pS, sS) {
+  //   console.log(pS.allChats, this.state.allChats);
+  //   // if (pS.allChats !== this.state.allChats) {
+  //   //   this.getChats();
+  //   // }
+  //   // if (pS.chatList !== this.state.chatList) {
+  //   //   this.getChatList();
+  //   // }
+  // }
   componentWillMount() {
     if (!this.state.user) {
       this.props.history.replace("/login");
     } else {
       this.getChatList();
     }
+    setInterval(() => {
+      if (this.state.anotherPerson) {
+        this.getChats();
+      }
+      this.getChatList();
+    }, 5000);
   }
+  dateFormatUpdate = (datee) => {
+    if (datee) {
+      const month = datee.split("/")[1];
+      const day = datee.split("/")[0];
+      const year = datee.split("/")[2];
+      return day + "-" + month + "-" + year;
+    } else return "";
+  };
   render() {
+    let lastDate = null;
+    const sellerchats = [];
+    this.state.allChats.map((chat) => {
+      if (
+        this.dateFormatUpdate(lastDate) !==
+        this.dateFormatUpdate(chat.timestamp.split(" ")[0])
+      ) {
+        sellerchats.push(
+          <div className="d-flex flex-row w-100 justify-content-center my-2 px-2">
+            <p
+              className="m-0 px-3 py-2"
+              style={{
+                borderRadius: "10px",
+                maxWidth: "75%",
+                backgroundColor: "#88E0EF",
+              }}
+            >
+              {chat.timestamp.split(" ")[0]}
+            </p>
+          </div>
+        );
+      }
+      if (chat.sender === this.state.user.id) {
+        sellerchats.push(
+          <div className="d-flex flex-row w-100 justify-content-end my-2 px-2">
+            <p
+              className="m-0 px-3 py-2 bg-white"
+              style={{
+                borderRadius: "10px",
+                maxWidth: "75%",
+              }}
+            >
+              {chat.content} <br />
+              <div
+                className="d-flex justify-content-end"
+                style={{
+                  fontSize: "12px",
+                }}
+              >
+                {chat.timestamp.split(" ")[1]}
+              </div>
+            </p>
+          </div>
+        );
+      } else {
+        sellerchats.push(
+          <div className="d-flex flex-row w-100 justify-content-start my-2 px-2">
+            <p
+              className="m-0 px-3 py-2 bg-primary text-white"
+              style={{
+                borderRadius: "10px",
+                maxWidth: "75%",
+              }}
+            >
+              {chat.content} <br />
+              <span className="text-end">{chat.timestamp.split(" ")[1]}</span>
+            </p>
+          </div>
+        );
+      }
+      lastDate = chat.timestamp.split(" ")[0];
+    });
     return (
       <div
         className="container-fluid"
@@ -130,7 +207,7 @@ export class Chats extends Component {
                 {this.state.chatList.map(
                   (chatee) =>
                     (!chatee.name ||
-                      chatee.name.contains(this.state.search)) && (
+                      chatee.name.includes(this.state.search)) && (
                       <div
                         className="d-flex flex-row boder border-bottom border-secondary py-3 px-2 align-items-center"
                         style={{
@@ -161,6 +238,7 @@ export class Chats extends Component {
             className="col-8"
             style={{
               paddingLeft: "0px!important",
+              height: "88vh",
             }}
           >
             {this.state.allChats.length === 0 ? (
@@ -206,6 +284,15 @@ export class Chats extends Component {
                   }}
                 >
                   {this.state.allChats.length > 0 ? (
+                    sellerchats
+                  ) : (
+                    <div className="d-flex flex-row w-100 justify-content-center my-2 px-2">
+                      <p className="m-0 px-3 py-2 lead">
+                        You don't have any conversation yet
+                      </p>
+                    </div>
+                  )}
+                  {/* {this.state.allChats.length > 0 ? (
                     this.state.allChats.map((chat) => {
                       if (chat.sender === this.state.user.id) {
                         return (
@@ -217,7 +304,15 @@ export class Chats extends Component {
                                 maxWidth: "75%",
                               }}
                             >
-                              {chat.content}
+                              {chat.content} <br />
+                              <div
+                                className="d-flex justify-content-end"
+                                style={{
+                                  fontSize: "12px",
+                                }}
+                              >
+                                {chat.timestamp.split(" ")[1]}
+                              </div>
                             </p>
                           </div>
                         );
@@ -231,7 +326,10 @@ export class Chats extends Component {
                                 maxWidth: "75%",
                               }}
                             >
-                              {chat.content}
+                              {chat.content} <br />
+                              <span className="text-end">
+                                {chat.timestamp.split(" ")[1]}
+                              </span>
                             </p>
                           </div>
                         );
@@ -243,7 +341,7 @@ export class Chats extends Component {
                         You don't have any conversation yet
                       </p>
                     </div>
-                  )}
+                  )} */}
                 </div>
                 <div className="d-flex flex-row justify-content-center">
                   <div className="d-flex flex-row w-100 justify-content-around">
